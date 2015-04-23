@@ -1,5 +1,6 @@
 package fr.esiea.glpoo.model.dao;
 
+import java.io.File;
 import java.util.List;
 
 import fr.esiea.glpoo.model.domain.Face;
@@ -15,6 +16,6 @@ public interface FaceDao {
 	 * 
 	 * @return
 	 */
-	List<Face> findAllFaces();
+	public List<Face> findAllFaces();
 	
 }

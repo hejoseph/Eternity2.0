@@ -2,10 +2,15 @@ package fr.esiea.glpoo.model.domain;
 
 public class Face {
 
+	
 	private FaceType face_type;
+	
 	private int id_face;
+	
 	private String couleur_fond;
+	
 	private String forme;
+	
 	private String couleur_forme;
 	
 	
@@ -39,6 +44,11 @@ public class Face {
 	public void setCouleur_forme(String couleur_forme) {
 		this.couleur_forme = couleur_forme;
 	}
+	@Override
+	public String toString() {
+		return face_type.getCode();
+	}
+	
 	
 	
 }
