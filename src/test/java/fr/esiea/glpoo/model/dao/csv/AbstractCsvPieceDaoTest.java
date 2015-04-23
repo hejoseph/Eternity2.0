@@ -12,14 +12,15 @@ import org.junit.Test;
 
 import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.FaceType;
+import fr.esiea.glpoo.model.domain.Piece;
 
-public abstract class AbstractCsvFaceDaoTest {
+public abstract class AbstractCsvPieceDaoTest {
 
-	private static final Logger LOGGER = Logger.getLogger(AbstractCsvFaceDaoTest.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractCsvPieceDaoTest.class);
 	public final static String RESOURCES_PATH = "src/test/resources/";
-	public final static String FACES_FILE_NAME = "faces-01.csv";
+	public final static String FACES_FILE_NAME = "pieces-01.csv";
 	
-	protected CsvFaceDao dao;
+	protected CsvPieceDao dao;
 	
 	@Before
 	public void doBefore() {
@@ -32,28 +33,17 @@ public abstract class AbstractCsvFaceDaoTest {
 	}
 	
 	@Test
-	public void testListFacesNonVide(){
+	public void testListPiecesNonVide(){
 		LOGGER.debug("Taille de la liste de faces : ");
-		final int tailleAttendue = 5;
+		final int tailleAttendue = 3;
 		doTestTailleListe(tailleAttendue);
 		
 	}
 	
 	private void doTestTailleListe(int size){
-		final List<Face> faces = dao.findAllFaces();
-		assertEquals(faces.size(),size);
+		final List<Piece> pieces = dao.findAllPieces();
+		assertEquals(pieces.size(),size);
 	}
 	
-	@Test
-	public void testPremiereFaceEstUnBord(){
-		final FaceType ft = FaceType.BORD;
-		doTestTypeFace(ft);
-		
-	}
-
-	private void doTestTypeFace(FaceType f) {
-		final List<Face> faces = dao.findAllFaces();
-		assertEquals(faces.get(0).getFace_type().getCode(), f.getCode());
-	}
 	
 }

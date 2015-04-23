@@ -7,12 +7,12 @@ import org.apache.log4j.Logger;
 
 import fr.esiea.glpoo.model.domain.Face;
 
-public abstract class AbstractCsvFaceDao implements CsvFaceDao {
+public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFaceDao {
 
 	private static final Logger LOGGER = Logger
 			.getLogger(AbstractCsvFaceDao.class);
 
-	protected File file;
+	
 	protected List<Face> faces;
 	protected List<String> entetes;
 
