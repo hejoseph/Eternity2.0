@@ -33,8 +33,9 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 //			chienMapByNom = new HashMap<String, Chien>(lignes.size());
 			for (String[] ligne : lignes) {
 				final Face face = transformLigneToFace(ligne);
+				
 				faces.add(face);
-
+				
 //				chienMapByNom.put(chien.getNom(), chien);
 			}
 		} catch (Exception e) {
@@ -43,10 +44,25 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 
 	}
 	
-	
+	protected void genListImgNames() {
+		LOGGER.debug("inside gen image names");
+		img_names = new ArrayList<String>(faces.size());
+		for(Face face : faces){
+			String img_name ="";
+			img_name += face.getBg_color();
+			if(face.getForm() != null){
+				img_name += "_"+face.getForm();
+			}
+			if(face.getForm_color() != null){
+				img_name += "_"+face.getForm_color();
+			}
+			img_name += ".png";
+			img_names.add(img_name);
+		}
+	}
 	
 	private Face transformLigneToFace(final String[] values) throws Exception {
-		LOGGER.debug("transformLigneToChien");
+		LOGGER.debug("transformLigneToFace");
 
 		final Face face = new Face();
 		
@@ -54,14 +70,14 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 		final FaceType ft = FaceType.valueOfByCode(tempFaceType);
 		face.setFace_type(ft);
 		
-		face.setId_face(Integer.parseInt(values[1]));
-		face.setCouleur_fond(values[2]);
+		face.setFace_id(Integer.parseInt(values[1]));
+		face.setBg_color(values[2]);
 		if(values.length == 3){
 			return face;
 		}
 		
-		face.setForme(values[3]);
-		face.setCouleur_forme(values[4]);
+		face.setForm(values[3]);
+		face.setBg_color(values[4]);
 
 		return face;
 	}

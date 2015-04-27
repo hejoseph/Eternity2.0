@@ -23,6 +23,8 @@ public interface CsvFaceDao extends FaceDao{
 	 */
 	File getFile();
 	
-//	public List<String> getEntetes();
+	public List<String> getImg_names();
+
+	
 
 }

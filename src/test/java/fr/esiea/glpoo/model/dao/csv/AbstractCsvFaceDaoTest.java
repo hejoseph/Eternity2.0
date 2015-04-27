@@ -41,6 +41,7 @@ public abstract class AbstractCsvFaceDaoTest {
 	
 	private void doTestTailleListe(int size){
 		final List<Face> faces = dao.findAllFaces();
+		LOGGER.debug("list size : "+faces.size());
 		assertEquals(faces.size(),size);
 	}
 	
@@ -55,5 +56,26 @@ public abstract class AbstractCsvFaceDaoTest {
 		final List<Face> faces = dao.findAllFaces();
 		assertEquals(faces.get(0).getFace_type().getCode(), f.getCode());
 	}
+	
+	@Test
+	public void testImgName(){
+		final String img_name = "noir.png";
+		doTestFirstImgName(img_name);
+	}
+
+	private void doTestFirstImgName(String img_name_waited) {
+		final List<String> img_names = dao.getImg_names();
+		LOGGER.debug(img_names.get(0));
+		assertEquals(img_names.get(0),img_name_waited);
+	}
+	
+	@Test
+	public void testGetFaceById(){
+		final int id_asked = 1;
+		final String color_waited = "noir";
+		final Face face = dao.getFaceById(1);
+		assertEquals(face.getBg_color(),color_waited);
+	}
+
 	
 }

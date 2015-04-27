@@ -3,10 +3,13 @@ package fr.esiea.glpoo.model.domain;
 import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
+import fr.esiea.glpoo.view.LabelDemo;
+
 
 /*Model*/
 public class Puzzle extends AbstractTableModel{
 	
+//	private LabelDemo lb;
 	private Piece[][] pieces;
 	private ImageIcon test;
 	private String[][] tab2d = {
@@ -16,7 +19,6 @@ public class Puzzle extends AbstractTableModel{
 	
 	public Puzzle(){
 		super();
-		test = new ImageIcon("black.png");
 	}
 	
 	public Class<?> getColumnClass(){
@@ -35,7 +37,7 @@ public class Puzzle extends AbstractTableModel{
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return tab2d[rowIndex][columnIndex];
+		return "nothing";
 	}
 	
 }

@@ -18,4 +18,6 @@ public interface FaceDao {
 	 */
 	public List<Face> findAllFaces();
 	
+	Face getFaceById(int i);
+	
 }

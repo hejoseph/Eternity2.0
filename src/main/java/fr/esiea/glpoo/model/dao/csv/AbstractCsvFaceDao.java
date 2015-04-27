@@ -15,7 +15,10 @@ public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFa
 	
 	protected List<Face> faces;
 	protected List<String> entetes;
+	protected List<String> img_names;
 
+	
+	
 	@Override
 	public List<Face> findAllFaces() {
 		LOGGER.debug("findAllFaces");
@@ -44,8 +47,28 @@ public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFa
 		this.file = file;
 		
 		reloadFaces();
+		genListImgNames();
 	}
 	
+	@Override
+	public Face getFaceById(int id){
+		for(Face face : faces){
+			if(face.getFace_id() == id){
+				return face;
+			}
+		}
+		/*face not found from id*/
+		return null;
+	}
+	
+	protected abstract void genListImgNames();
+
 	protected abstract void reloadFaces();
+
+	@Override
+	public List<String> getImg_names() {
+		return img_names;
+	}
+	
 
 }

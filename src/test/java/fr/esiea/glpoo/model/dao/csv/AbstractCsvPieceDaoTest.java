@@ -34,7 +34,7 @@ public abstract class AbstractCsvPieceDaoTest {
 	
 	@Test
 	public void testListPiecesNonVide(){
-		LOGGER.debug("Taille de la liste de faces : ");
+		LOGGER.debug("Taille de la liste de pieces : ");
 		final int tailleAttendue = 3;
 		doTestTailleListe(tailleAttendue);
 		
@@ -43,6 +43,17 @@ public abstract class AbstractCsvPieceDaoTest {
 	private void doTestTailleListe(int size){
 		final List<Piece> pieces = dao.findAllPieces();
 		assertEquals(pieces.size(),size);
+	}
+	
+	@Test
+	public void testListFacesOfAPiece(){
+		final String bg_color_waited = "noir";
+		doTestFirstElementListFacesOfAPiece(bg_color_waited);
+	}
+	
+	private void doTestFirstElementListFacesOfAPiece(String bg_color){
+		final List<Piece> pieces = dao.findAllPieces();
+		assertEquals(pieces.get(0).getFaces().get(0).getBg_color(),bg_color);
 	}
 	
 	
