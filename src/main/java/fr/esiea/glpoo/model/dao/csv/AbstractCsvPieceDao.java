@@ -13,6 +13,8 @@ public abstract class AbstractCsvPieceDao extends AbstractCsvDao implements CsvP
 	private static final Logger LOGGER = Logger.getLogger(AbstractCsvPieceDao.class);
 	protected List<Piece> pieces;
 	
+	protected CsvFaceDao dao;
+	
 	public List<Piece> findAllPieces() {
 		LOGGER.debug("findAllPieces");
 

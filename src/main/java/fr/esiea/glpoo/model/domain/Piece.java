@@ -1,5 +1,6 @@
 package fr.esiea.glpoo.model.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Piece {
@@ -17,8 +18,8 @@ public class Piece {
 	
 	
 
-	public Piece(int piece_id, int north_face_id, int south_face_id,
-			int east_face_id, int west_face_id) {
+	public Piece(int piece_id, int north_face_id, int east_face_id,
+			int south_face_id, int west_face_id) {
 		super();
 		this.piece_id = piece_id;
 		this.north_face_id = north_face_id;

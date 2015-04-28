@@ -2,6 +2,7 @@ package fr.esiea.glpoo.model.dao.csv;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import fr.esiea.glpoo.model.dao.FaceDao;
 import fr.esiea.glpoo.model.domain.Face;
@@ -23,7 +24,7 @@ public interface CsvFaceDao extends FaceDao{
 	 */
 	File getFile();
 	
-	public List<String> getImg_names();
+	public Map<Integer,String> getImg_names();
 
 	
 

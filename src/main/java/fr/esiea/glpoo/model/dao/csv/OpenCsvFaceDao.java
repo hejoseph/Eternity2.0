@@ -2,6 +2,7 @@ package fr.esiea.glpoo.model.dao.csv;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -46,7 +47,7 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 	
 	protected void genListImgNames() {
 		LOGGER.debug("inside gen image names");
-		img_names = new ArrayList<String>(faces.size());
+		img_names = new HashMap<Integer,String>(faces.size());
 		for(Face face : faces){
 			String img_name ="";
 			img_name += face.getBg_color();
@@ -57,7 +58,7 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 				img_name += "_"+face.getForm_color();
 			}
 			img_name += ".png";
-			img_names.add(img_name);
+			img_names.put(face.getFace_id(),img_name);
 		}
 	}
 	

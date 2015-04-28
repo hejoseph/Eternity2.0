@@ -2,6 +2,7 @@ package fr.esiea.glpoo.model.dao.csv;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -15,7 +16,7 @@ public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFa
 	
 	protected List<Face> faces;
 	protected List<String> entetes;
-	protected List<String> img_names;
+	protected Map<Integer,String> img_names;
 
 	
 	
@@ -66,7 +67,7 @@ public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFa
 	protected abstract void reloadFaces();
 
 	@Override
-	public List<String> getImg_names() {
+	public Map<Integer,String> getImg_names() {
 		return img_names;
 	}
 	

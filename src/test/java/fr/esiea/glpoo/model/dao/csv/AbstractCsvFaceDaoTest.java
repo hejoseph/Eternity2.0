@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -64,9 +65,9 @@ public abstract class AbstractCsvFaceDaoTest {
 	}
 
 	private void doTestFirstImgName(String img_name_waited) {
-		final List<String> img_names = dao.getImg_names();
-		LOGGER.debug(img_names.get(0));
-		assertEquals(img_names.get(0),img_name_waited);
+		final Map<Integer,String> img_names = dao.getImg_names();
+		LOGGER.debug(img_names.get(1));
+		assertEquals(img_names.get(1),img_name_waited);
 	}
 	
 	@Test

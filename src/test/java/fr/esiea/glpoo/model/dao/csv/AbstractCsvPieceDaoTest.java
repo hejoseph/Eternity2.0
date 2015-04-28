@@ -52,7 +52,9 @@ public abstract class AbstractCsvPieceDaoTest {
 	}
 	
 	private void doTestFirstElementListFacesOfAPiece(String bg_color){
+		
 		final List<Piece> pieces = dao.findAllPieces();
+		LOGGER.debug("size = "+pieces.get(0).getFaces().size());
 		assertEquals(pieces.get(0).getFaces().get(0).getBg_color(),bg_color);
 	}
 	
