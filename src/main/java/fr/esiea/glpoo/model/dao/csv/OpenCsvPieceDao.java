@@ -24,7 +24,7 @@ public class OpenCsvPieceDao extends AbstractCsvPieceDao{
 		}
 
 		try {
-			reloadFaces();
+//			reloadFaces();
 			
 			final List<String[]> lignes = getLignesFromFile();
 			
@@ -46,28 +46,32 @@ public class OpenCsvPieceDao extends AbstractCsvPieceDao{
 	}
 	
 	private Piece transformLigneToPiece(final String[] values) throws Exception {
-		LOGGER.debug("transformLigneToChien");
-
-		final Piece piece = new Piece(Integer.parseInt(values[1]),Integer.parseInt(values[2]),Integer.parseInt(values[3]),Integer.parseInt(values[4]),Integer.parseInt(values[5]));
-		List<Face> faces = new ArrayList<Face>();
-		for(int i=2;i<=5;i++){
-			final Face face = transformIdtoFace(Integer.parseInt(values[1]));
-			faces.add(face);
-		}
+		LOGGER.debug("transformLigneToPiece");
 		
-		piece.setFaces(faces);
+		final Piece piece = new Piece(Integer.parseInt(values[1]),Integer.parseInt(values[2]),Integer.parseInt(values[3]),Integer.parseInt(values[4]),Integer.parseInt(values[5]));
+//		List<Face> faces = new ArrayList<Face>();
+//		for(int i=2;i<=5;i++){
+//			int face_id = Integer.parseInt(values[i]);
+//			LOGGER.debug("face id ="+face_id);
+//			final Face face = transformIdtoFace(face_id);
+//			face.setImg_name(dao.getImg_names().get(face_id));
+//			LOGGER.debug("Image name ="+face.getImg_name());
+//			faces.add(face);
+//		}
+		
+//		piece.setFaces(faces);
 		
 		return piece;
 	}
 	
-	private void reloadFaces(){
-		dao = new OpenCsvFaceDao();
-		final File file = new File("src/test/resources/faces-01.csv");
-		dao.init(file);
-	}
+//	private void reloadFaces(){
+//		dao = new OpenCsvFaceDao();
+//		final File file = new File("src/test/resources/faces-01.csv");
+//		dao.init(file);
+//	}
 
-	private Face transformIdtoFace(int id) {
-		return dao.getFaceById(id);
-	}
+//	private Face transformIdtoFace(int id) {
+//		return dao.getFaceById(id);
+//	}
 
 }

@@ -18,7 +18,7 @@ public abstract class AbstractCsvPieceDaoTest {
 
 	private static final Logger LOGGER = Logger.getLogger(AbstractCsvPieceDaoTest.class);
 	public final static String RESOURCES_PATH = "src/test/resources/";
-	public final static String FACES_FILE_NAME = "pieces-01.csv";
+	public final static String PIECES_FILE_NAME = "pieces-01.csv";
 	
 	protected CsvPieceDao dao;
 	
@@ -26,7 +26,7 @@ public abstract class AbstractCsvPieceDaoTest {
 	public void doBefore() {
 		LOGGER.debug("doBefore Debut");
 
-		final File file = new File(RESOURCES_PATH + FACES_FILE_NAME);
+		final File file = new File(RESOURCES_PATH + PIECES_FILE_NAME);
 		dao.init(file);
 
 		LOGGER.debug("doBefore Fin");
@@ -56,6 +56,18 @@ public abstract class AbstractCsvPieceDaoTest {
 		final List<Piece> pieces = dao.findAllPieces();
 		LOGGER.debug("size = "+pieces.get(0).getFaces().size());
 		assertEquals(pieces.get(0).getFaces().get(0).getBg_color(),bg_color);
+		
+		final String img_name = "noir.png";
+		doTestNameOfImgFace(img_name);
+	}
+	
+	private void doTestNameOfImgFace(String name){
+		LOGGER.debug("Test Img name");
+		final List<Piece> pieces = dao.findAllPieces();
+		for(Piece piece : pieces){
+			LOGGER.debug(piece.getFaces().get(0).getImg_name());
+		}
+		assertEquals(pieces.get(0).getFaces().get(0).getImg_name(),name);
 	}
 	
 	

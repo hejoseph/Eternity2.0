@@ -28,13 +28,22 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 //			final String[] ligneEntete = lignes.remove(0);
 //			transformEntetes(ligneEntete);
 			for(String[] s : lignes){
-				System.out.println(s[0]+ " " + s[1] + " " + s[2]);
+				String msg ="";
+				for(String value : s){
+					msg += value + " ";
+				}
+				LOGGER.debug(msg);
 			}
 			faces = new ArrayList<Face>(lignes.size());
 //			chienMapByNom = new HashMap<String, Chien>(lignes.size());
 			for (String[] ligne : lignes) {
+				String msg ="";
+				for(String value : ligne){
+					msg += value + " ";
+				}
+				LOGGER.debug(msg);
 				final Face face = transformLigneToFace(ligne);
-				
+				LOGGER.debug("color = "+face.getBg_color());
 				faces.add(face);
 				
 //				chienMapByNom.put(chien.getNom(), chien);
@@ -72,13 +81,15 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 		face.setFace_type(ft);
 		
 		face.setFace_id(Integer.parseInt(values[1]));
+		LOGGER.debug("WARNING before Set: "+values[2]);
 		face.setBg_color(values[2]);
+		LOGGER.debug("WARNING After Set: "+face.getBg_color());
 		if(values.length == 3){
 			return face;
 		}
 		
 		face.setForm(values[3]);
-		face.setBg_color(values[4]);
+		face.setForm_color(values[4]);
 
 		return face;
 	}

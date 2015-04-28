@@ -28,7 +28,9 @@ public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFa
 			throw new IllegalStateException(
 					"La liste n'a pas encore ete initialisee...");
 		}
-
+		for(Face face : faces){
+			LOGGER.debug(face.getBg_color());
+		}
 		return faces;
 	}
 	

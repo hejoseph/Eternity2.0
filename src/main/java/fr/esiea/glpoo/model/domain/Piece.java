@@ -3,10 +3,13 @@ package fr.esiea.glpoo.model.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.esiea.glpoo.model.service.FaceService;
+
 public class Piece {
 
 	private List<Face> faces;
-
+	private FaceService faceService = FaceService.getInstance();
+	
 	private int piece_id;
 	private int north_face_id;
 	private int south_face_id;
