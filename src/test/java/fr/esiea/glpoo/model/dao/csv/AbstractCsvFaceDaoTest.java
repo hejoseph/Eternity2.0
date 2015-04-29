@@ -65,9 +65,8 @@ public abstract class AbstractCsvFaceDaoTest {
 	}
 
 	private void doTestFirstImgName(String img_name_waited) {
-		final Map<Integer,String> img_names = dao.getImg_names();
-		LOGGER.debug(img_names.get(1));
-		assertEquals(img_names.get(1),img_name_waited);
+		final List<Face> faces = dao.findAllFaces();
+		assertEquals(img_name_waited,faces.get(0).getImg_name());
 	}
 	
 	@Test

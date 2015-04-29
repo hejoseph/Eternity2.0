@@ -77,4 +77,9 @@ public class FaceService {
 		}
 	}
 	
+	public Face getFaceById(int id){
+		LOGGER.debug("get Face");
+		return csvFaceDao.getFaceById(id);
+	}
+	
 }

@@ -24,7 +24,7 @@ public interface CsvFaceDao extends FaceDao{
 	 */
 	File getFile();
 	
-	public Map<Integer,String> getImg_names();
+//	public Map<Integer,String> getImg_names();
 
 	
 

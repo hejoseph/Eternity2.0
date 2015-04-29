@@ -56,7 +56,7 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 	
 	protected void genListImgNames() {
 		LOGGER.debug("inside gen image names");
-		img_names = new HashMap<Integer,String>(faces.size());
+//		img_names = new HashMap<Integer,String>(faces.size());
 		for(Face face : faces){
 			String img_name ="";
 			img_name += face.getBg_color();
@@ -67,7 +67,7 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 				img_name += "_"+face.getForm_color();
 			}
 			img_name += ".png";
-			img_names.put(face.getFace_id(),img_name);
+			face.setImg_name(img_name);
 		}
 	}
 	

@@ -15,8 +15,7 @@ public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFa
 
 	
 	protected List<Face> faces;
-	protected List<String> entetes;
-	protected Map<Integer,String> img_names;
+//	protected Map<Integer,String> img_names;
 
 	
 	
@@ -68,10 +67,12 @@ public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFa
 
 	protected abstract void reloadFaces();
 
-	@Override
-	public Map<Integer,String> getImg_names() {
-		return img_names;
-	}
+//	@Override
+//	public Map<Integer,String> getImg_names() {
+//		return img_names;
+//	}
+	
+	
 	
 
 }

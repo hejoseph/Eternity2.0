@@ -12,10 +12,11 @@ public class Puzzle extends AbstractTableModel{
 //	private LabelDemo lb;
 	private Piece[][] pieces;
 	private ImageIcon test;
-	private String[][] tab2d = {
-			{"1 ","2 ","3 "},
-			{"4 ","5 ","6 "},
-			{"7 ","8 ","9 "}};
+	private Object[][] tab2d = {
+			{"etoile.png","test2.png","test3.png","test4.png"},
+			{"test5.png","test6.png","test7.png","test8.png"},
+			{"test9.png","test10.png",/*vide*/"","test12.png"},
+			{"test13.png","test14.png","test15.png","test16.png"}};
 	
 	public Puzzle(){
 		super();
@@ -37,7 +38,7 @@ public class Puzzle extends AbstractTableModel{
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return "nothing";
+		return tab2d[rowIndex][columnIndex];
 	}
 	
 }
