@@ -3,6 +3,7 @@ package fr.esiea.glpoo.model.dao.csv;
 import org.apache.log4j.Logger;
 
 /**
+ * Classe de test generique pour les DAOs de Face en CSV.
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

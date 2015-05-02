@@ -1,6 +1,7 @@
 package fr.esiea.glpoo.model.domain;
 
 /**
+ * Definit si une face doit être sur le bord du jeu ou non.
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

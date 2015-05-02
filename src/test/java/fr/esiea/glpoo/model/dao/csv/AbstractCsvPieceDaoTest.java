@@ -15,6 +15,7 @@ import fr.esiea.glpoo.model.domain.FaceType;
 import fr.esiea.glpoo.model.domain.Piece;
 
 /**
+ * Classe de test generique pour les DAOs de Piece en CSV.
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

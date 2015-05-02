@@ -6,6 +6,7 @@ import java.util.List;
 import fr.esiea.glpoo.model.domain.Face;
 
 /**
+ * DAO pour la gestion des faces.
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *
@@ -24,6 +25,12 @@ public interface FaceDao {
 	 */
 	public List<Face> findAllFaces();
 	
+	
+	/**
+	 * Recuperation d'une face a partir de son identifiant
+	 * @param i
+	 * @return
+	 */
 	Face getFaceById(int i);
 	
 }

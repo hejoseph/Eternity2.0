@@ -9,6 +9,8 @@ import fr.esiea.glpoo.model.domain.Face;
 
 /**
  * 
+ * DAO pour la gestion des faces.
+ * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *
  */

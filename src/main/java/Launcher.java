@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import fr.esiea.glpoo.view.PuzzleJFrame;
 
 /**
+ * Classe qui va permettre de lancer le jeu, ou le controlleur
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

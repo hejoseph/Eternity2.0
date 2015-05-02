@@ -16,6 +16,7 @@ import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.Piece;
 
 /**
+ * Cette classe represente un service qui va utiliser le Dao de Piece
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

@@ -17,6 +17,7 @@ import fr.esiea.glpoo.model.domain.Piece;
 
 
 /**
+ * Cette classe represente une service qui va utiliser le Dao de Face
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

@@ -10,6 +10,7 @@ import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.Piece;
 
 /**
+ * Classe qui definit le comportement abstraite du Dao de Piece utilisant le Csv
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

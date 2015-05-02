@@ -15,6 +15,7 @@ import fr.esiea.glpoo.model.domain.Puzzle;
 import fr.esiea.glpoo.view.PuzzleJFrame;
 
 /**
+ * Classe qui va faire interagir les donnees (model) , et l'interface graphique (view).
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

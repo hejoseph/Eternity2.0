@@ -15,6 +15,7 @@ import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.FaceType;
 
 /**
+ * Classe de test generique pour les DAOs de Face en CSV.
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

@@ -13,6 +13,8 @@ import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * 
+ * Classe Dao qui va recuperer les donnes du fichier csv Face
+ * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *
  */

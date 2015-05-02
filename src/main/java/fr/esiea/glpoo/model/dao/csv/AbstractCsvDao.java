@@ -11,11 +11,12 @@ import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * 
+ * Class qui traite les fichiers csv
+ * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *
  */
 
-/*Class qui traite les fichiers csv*/
 public abstract class AbstractCsvDao {
 	private static final Logger LOGGER = Logger.getLogger(OpenCsvFaceDao.class);
 	

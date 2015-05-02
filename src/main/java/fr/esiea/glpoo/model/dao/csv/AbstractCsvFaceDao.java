@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import fr.esiea.glpoo.model.domain.Face;
 
 /**
+ * Classe qui definit le comportement abstraite du Dao de Face utilisant le Csv
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

@@ -5,6 +5,7 @@ import java.util.List;
 import fr.esiea.glpoo.model.domain.Piece;
 
 /**
+ * DAO pour la gestion des pieces.
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *
@@ -23,6 +24,12 @@ public interface PieceDao {
 	 */
 	List<Piece> findAllPieces();
 
+	
+	/**
+	 * Recuperation d'une piece a partir de son identifiant
+	 * @param id
+	 * @return une piece
+	 */
 	Piece getPieceById(int id);
 	
 }

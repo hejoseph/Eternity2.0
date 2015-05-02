@@ -1,6 +1,8 @@
 package fr.esiea.glpoo.model.domain;
 
 /**
+ * Cette classe represente une Face
+ * 
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *
@@ -64,7 +66,11 @@ public class Face {
 	public void setForm_color(String form_color) {
 		this.form_color = form_color;
 	}
-
+	
+	/**
+	 * Une face doit avoir le nom de son image pour pouvoir etre affichee dans le view.
+	 * @return une chaine de caractere
+	 */
 	public String getImg_name() {
 		return img_name;
 	}

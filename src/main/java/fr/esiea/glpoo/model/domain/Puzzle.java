@@ -14,6 +14,7 @@ import fr.esiea.glpoo.model.service.PieceService;
 import fr.esiea.glpoo.view.LabelDemo;
 
 /**
+ * Classe qui represente le model, c'est-a-dire le coeur des donnees du jeu
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

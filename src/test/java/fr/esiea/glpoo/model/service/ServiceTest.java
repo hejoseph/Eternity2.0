@@ -15,6 +15,8 @@ import fr.esiea.glpoo.model.domain.Piece;
 
 /**
  * 
+ * Classe de test generique pour les services Face et Piece
+ * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *
  */

@@ -6,6 +6,8 @@ import fr.esiea.glpoo.model.dao.PieceDao;
 
 /**
  * 
+ * DAO pour la gestion des pieces.
+ * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *
  */

@@ -15,6 +15,8 @@ import fr.esiea.glpoo.model.domain.Piece;
 
 /**
  * 
+ * Classe Dao qui va recuperer les donnes du fichier csv Piece
+ * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *
  */

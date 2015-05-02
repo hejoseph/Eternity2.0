@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 /**
+ * Cette classe permet de dessiner les faces d'une piece
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *

@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import fr.esiea.glpoo.model.service.FaceService;
 
 /**
+ * Cette classe represente une piece.
+ * Une piece est composee de 4 faces.
  * 
  * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
  *
@@ -41,6 +43,10 @@ public class Piece {
 		this.west_face_id = west_face_id;
 	}
 	
+	/**
+	 * Retourne la liste des faces d'une piece
+	 * @return Liste de faces
+	 */
 	public List<Face> getFaces() {
 		return faces;
 	}
@@ -79,6 +85,10 @@ public class Piece {
 		this.west_face_id = west_face_id;
 	}
 	
+	/**
+	 * Retourne une liste d'entiers à partir des attributs de la piece
+	 * @return Liste d'entiers
+	 */
 	public List<Integer> get_faces_id(){
 		LOGGER.debug("returning list of face_id");
 		List<Integer> l = new ArrayList<Integer>();
@@ -89,6 +99,11 @@ public class Piece {
 		return l;
 	}
 
+	
+	/**
+	 * Retourne le nombre de bord "noir" que continent une piece.
+	 * @return un nombre entier
+	 */
 	public int nbBord(){
 		if (faces == null) {
 			throw new IllegalStateException(
