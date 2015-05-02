@@ -15,7 +15,7 @@ public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFa
 
 	
 	protected List<Face> faces;
-//	protected Map<Integer,String> img_names;
+	protected Map<Integer,Face> faceMapById;
 
 	
 	
@@ -53,14 +53,13 @@ public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFa
 	}
 	
 	@Override
-	public Face getFaceById(int id){
-		for(Face face : faces){
-			if(face.getFace_id() == id){
-				return face;
-			}
+	public Face getFaceById(final int id){
+
+		if (faces == null) {
+			throw new IllegalStateException("La liste n'a pas encore ete initialisee...");
 		}
-		/*face not found from id*/
-		return null;
+		LOGGER.debug("before returning id from hashmap and id was : "+id);
+		return faceMapById.get(id);
 	}
 	
 	protected abstract void genListImgNames();

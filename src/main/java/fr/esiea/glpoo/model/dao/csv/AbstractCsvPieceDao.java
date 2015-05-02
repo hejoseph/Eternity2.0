@@ -2,6 +2,7 @@ package fr.esiea.glpoo.model.dao.csv;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -12,6 +13,7 @@ public abstract class AbstractCsvPieceDao extends AbstractCsvDao implements CsvP
 	
 	private static final Logger LOGGER = Logger.getLogger(AbstractCsvPieceDao.class);
 	protected List<Piece> pieces;
+	protected Map<Integer,Piece> pieceMapById;
 	
 	protected CsvFaceDao dao;
 	
@@ -36,5 +38,15 @@ public abstract class AbstractCsvPieceDao extends AbstractCsvDao implements CsvP
 	}
 	
 	protected abstract void reloadPieces();
+	
+	@Override
+	public Piece getPieceById(final int id){
+
+		if (pieces == null) {
+			throw new IllegalStateException("La liste n'a pas encore ete initialisee...");
+		}
+
+		return pieceMapById.get(id);
+	}
 	
 }

@@ -10,12 +10,12 @@ import javax.swing.JPanel;
 public class ImageLoader extends JPanel{
 	
 	BufferedImage bf;
+	Double angle;
 	
-	
-	
-	public ImageLoader(BufferedImage bf) {
+	public ImageLoader(BufferedImage bf,Double angle) {
 		super();
 		this.bf = bf;
+		this.angle = angle;
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class ImageLoader extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.rotate(Math.PI / 0.5, bf.getWidth() / 2, bf.getHeight() / 2);
+        g2.rotate(angle, bf.getWidth() / 2, bf.getHeight() / 2);
         g2.drawImage(bf, 0,0, null);
     }
 	

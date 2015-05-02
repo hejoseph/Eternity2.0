@@ -35,7 +35,7 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 				LOGGER.debug(msg);
 			}
 			faces = new ArrayList<Face>(lignes.size());
-//			chienMapByNom = new HashMap<String, Chien>(lignes.size());
+			faceMapById = new HashMap<Integer, Face>(lignes.size());
 			for (String[] ligne : lignes) {
 				String msg ="";
 				for(String value : ligne){
@@ -46,7 +46,7 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 				LOGGER.debug("color = "+face.getBg_color());
 				faces.add(face);
 				
-//				chienMapByNom.put(chien.getNom(), chien);
+				faceMapById.put(face.getFace_id(), face);
 			}
 		} catch (Exception e) {
 			LOGGER.error("Une erreur s'est produite...", e);

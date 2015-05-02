@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -24,6 +25,8 @@ import javax.swing.table.TableColumn;
 
 import org.apache.log4j.Logger;
 
+import fr.esiea.glpoo.model.domain.Face;
+import fr.esiea.glpoo.model.domain.Piece;
 import fr.esiea.glpoo.model.domain.Puzzle;
 
 /*View*/
@@ -51,7 +54,7 @@ public class PuzzleJFrame extends JFrame {
 		TableColumn column = null;
 		for (int i = 0; i < 4; i++) {
 			column = table.getColumnModel().getColumn(i);
-			column.setPreferredWidth(100); // sport column is bigger
+			column.setPreferredWidth(100); 
 		}
 		JScrollPane scrollPane = new JScrollPane(table);
 
@@ -108,60 +111,72 @@ class ImageRenderer extends DefaultTableCellRenderer {
 	// ImageIcon icon, icon2;
 
 	public ImageRenderer() {
-		container = new JPanel();
 	}
 
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
+		container = new JPanel();
 		LOGGER.debug("returning label");
 		LOGGER.debug("row = " + row);
 		LOGGER.debug("column = " + column);
 		LOGGER.debug("value = " + value);
-
-		// java.net.URL imgURL =
-		// getClass().getClassLoader().getResource(value.toString());
-		// ImageIcon icon = new ImageIcon(imgURL);
-
-		// java.net.URL imgURL2 =
-		// getClass().getClassLoader().getResource("red.png");
-		// icon2 = new ImageIcon(imgURL2);
-		// lbl.setText((String) value);
-		// JLabel lb1 = new JLabel();
-		// JLabel lb2 = new JLabel();
-		// lbl.setIcon(icon);
-		// lb2.setIcon(icon2);
-		// lbl.setLayout(new BoxLayout(lbl, BoxLayout.X_AXIS));
-		// lbl.add(lb1);
-		// lbl.add(lb2);
-		// lbl.setOpaque(true);
+		
 		LOGGER.debug("loading image");
 		BufferedImage bf = null;
-		try {
-			bf = ImageIO.read(new File("src/main/resources/etoile.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Piece p = (Piece)value;
+		List<Face> faces = p.getFaces();
+		Double[] angle = {Math.PI/2,Math.PI/1,-Math.PI/2,Math.PI/0.5};
+		for(int i = 0; i< faces.size();i++){
+			LOGGER.debug("nombre de face pour la piece : "+faces.size());
+			try {
+				String img_name = faces.get(i).getImg_name();
+				LOGGER.debug("nom de l'image a lire: "+img_name);
+				bf = ImageIO.read(new File("src/main/resources/"+img_name));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JPanel j = new ImageLoader(bf,angle[i]);
+			j.setOpaque(false);
+			container.add(j);
+			Dimension size = j.getPreferredSize();
+			j.setBounds(0, 0, size.width, size.height);
 		}
-		JPanel j = new ImageLoader(bf);
-
-		try {
-			bf = ImageIO.read(new File("src/main/resources/torsade.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		JPanel k = new ImageLoader(bf);
-
+		
+//		try {
+//			bf = ImageIO.read(new File("src/main/resources/noir.png"));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		JPanel j = new ImageLoader(bf,Math.PI/2);
+//
+//		try {
+//			bf = ImageIO.read(new File("src/main/resources/bleu_zigzag_blanc.png"));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		JPanel k = new ImageLoader(bf,-Math.PI/2);
+//
 		container.setLayout(null);
-		j.setOpaque(false);
-		k.setOpaque(false);
-		container.add(j);
-		container.add(k);
-		Dimension size = j.getPreferredSize();
-		j.setBounds(5, 5, size.width, size.height);
-		size = k.getPreferredSize();
-		k.setBounds(5, 5, size.width, size.height);
-
+//		j.setOpaque(false);
+//		k.setOpaque(false);
+//		container.add(j);
+//		container.add(k);
+//		Dimension size = j.getPreferredSize();
+//		j.setBounds(0, 0, size.width, size.height);
+//		size = k.getPreferredSize();
+//		k.setBounds(0, 0, size.width, size.height);
+		
+//		String m = "";
+//		Piece p = (Piece) value;
+//		for(Face f : p.getFaces()){
+//			m+=f.getImg_name()+ " ";
+//		}
+//		
+//		lbl.setText(m);
+//		container.add(lbl);
 		return container;
 	}
 }

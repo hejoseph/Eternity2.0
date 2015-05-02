@@ -17,5 +17,7 @@ public interface PieceDao {
 	 * @return
 	 */
 	List<Piece> findAllPieces();
+
+	Piece getPieceById(int id);
 	
 }

@@ -3,9 +3,13 @@ package fr.esiea.glpoo.model.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import fr.esiea.glpoo.model.service.FaceService;
 
 public class Piece {
+	
+	private static final Logger LOGGER = Logger.getLogger(Piece.class);
 
 	private List<Face> faces;
 	private FaceService faceService = FaceService.getInstance();
@@ -69,7 +73,15 @@ public class Piece {
 		this.west_face_id = west_face_id;
 	}
 	
-
+	public List<Integer> get_faces_id(){
+		LOGGER.debug("returning list of face_id");
+		List<Integer> l = new ArrayList<Integer>();
+		l.add(this.north_face_id);
+		l.add(this.east_face_id);
+		l.add(this.south_face_id);
+		l.add(this.west_face_id);
+		return l;
+	}
 
 	
 	

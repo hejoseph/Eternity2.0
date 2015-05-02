@@ -42,32 +42,7 @@ public abstract class AbstractCsvPieceDaoTest {
 	
 	private void doTestTailleListe(int size){
 		final List<Piece> pieces = dao.findAllPieces();
-		assertEquals(pieces.size(),size);
-	}
-	
-	@Test
-	public void testListFacesOfAPiece(){
-		final String bg_color_waited = "noir";
-		doTestFirstElementListFacesOfAPiece(bg_color_waited);
-	}
-	
-	private void doTestFirstElementListFacesOfAPiece(String bg_color){
-		
-		final List<Piece> pieces = dao.findAllPieces();
-		LOGGER.debug("size = "+pieces.get(0).getFaces().size());
-		assertEquals(pieces.get(0).getFaces().get(0).getBg_color(),bg_color);
-		
-		final String img_name = "noir.png";
-		doTestNameOfImgFace(img_name);
-	}
-	
-	private void doTestNameOfImgFace(String name){
-		LOGGER.debug("Test Img name");
-		final List<Piece> pieces = dao.findAllPieces();
-		for(Piece piece : pieces){
-			LOGGER.debug(piece.getFaces().get(0).getImg_name());
-		}
-		assertEquals(pieces.get(0).getFaces().get(0).getImg_name(),name);
+		assertEquals(size,pieces.size());
 	}
 	
 	

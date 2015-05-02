@@ -2,9 +2,11 @@ package fr.esiea.glpoo.model.dao.csv;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+
 
 import fr.esiea.glpoo.model.dao.FaceDao;
 import fr.esiea.glpoo.model.domain.Face;
@@ -32,12 +34,12 @@ public class OpenCsvPieceDao extends AbstractCsvPieceDao{
 				System.out.println(s[0]+ " " + s[1] + " " + s[2]);
 			}
 			pieces = new ArrayList<Piece>(lignes.size());
-
+			pieceMapById = new HashMap<Integer, Piece>(lignes.size());
 			for (String[] ligne : lignes) {
 				final Piece piece = transformLigneToPiece(ligne);
 				pieces.add(piece);
-
-//				chienMapByNom.put(chien.getNom(), chien);
+				LOGGER.debug("before put hashmap, id piece = "+piece.getPiece_id());
+				pieceMapById.put(piece.getPiece_id(), piece);
 			}
 		} catch (Exception e) {
 			LOGGER.error("Une erreur s'est produite...", e);
