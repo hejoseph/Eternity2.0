@@ -40,12 +40,100 @@ public class Puzzle extends AbstractTableModel {
 				+ PIECES_FILE_NAME);
 		List<Face> faces = faceService.findAllFaces(RESOURCES_PATH
 				+ FACES_FILE_NAME);
+		
+		for(Piece p : pieces){
+			List<Face> lf = new ArrayList<Face>();
+			for(Integer face_id : p.get_faces_id()){
+				Face f = faceService.getFaceById(face_id);
+				lf.add(f);
+			}
+			p.setFaces(lf);
+		}
+		
 		int game_size = 16;
-		int limited = pieces.size();
+		
 		int test=0;
 		LOGGER.debug("taille de la base de donnee de piece :" + pieces.size());
 		Piece[][] puzzle = new Piece[4][4];
+		
+//		piecegame = generateRandomPiece(puzzle, pieces);
+		
+		piecegame = generateRandomSolvablePuzzle(puzzle, pieces);
+		
+	}
+	
+	private Piece[][] generateRandomSolvablePuzzle(Piece[][] puzzle, List<Piece> pieces) {
+		int limited = pieces.size();
+		
+		for(int i=0;i<puzzle.length;i++){
+			for(int j = 0; j<puzzle[0].length ; j ++){
+				puzzle[i][j] = generatePiece(i,j,puzzle,pieces);
+			}
+		}
+		
+		return puzzle;
+	}
+	
+	private Piece generatePiece(int row, int column, Piece[][] puzzle, List<Piece> pieces){
+		int game_size = puzzle.length;
+		Piece result=null;
+		Piece p1 = null;
+		do{
+			Random generator = new Random();
+			int random_id = generator.nextInt(pieces.size());
+			p1 = pieces.get(random_id);
+			if(row == 0){
+				if(column == 0){
+					if(p1.nbBord() == 2){
+						result = pieces.remove(random_id);
+					}
+				} else if(column == game_size-1){
+					if(p1.nbBord() == 2){
+						result = pieces.remove(random_id);
+					}
+				} else{
+					if(p1.nbBord() == 1){
+						result = pieces.remove(random_id);
+					}
+				}
+			} else if(row == game_size-1){
+				if(column == 0){
+					if(p1.nbBord() == 2){
+						result = pieces.remove(random_id);
+					}
+				} else if(column == game_size-1){
+					if(p1.nbBord() == 2){
+						result = pieces.remove(random_id);
+					}
+				} else{
+					if(p1.nbBord() == 1){
+						result = pieces.remove(random_id);
+					}
+				}
+			} else {
+				if(column == 0){
+					if(p1.nbBord() == 1){
+						result = pieces.remove(random_id);
+					}
+				} else if(column == game_size-1){
+					if(p1.nbBord() == 1){
+						result = pieces.remove(random_id);
+					}
+				} else{
+					if(p1.nbBord() == 0){
+						result = pieces.remove(random_id);
+					}
+				}
+			}
+		} while (result == null);
+		return result;
+	}
+	
+
+
+	private Piece[][] generateRandomPiece(Piece[][] puzzle, List<Piece> pieces){
 		Random generator = new Random();
+		int limited = pieces.size();
 		for (int i = 0; i < puzzle.length ; i++) {
 			for (int j = 0 ; j < puzzle[0].length ; j++ ) {
 				int random_id = generator.nextInt(pieces.size()) + 1;
@@ -60,14 +148,13 @@ public class Puzzle extends AbstractTableModel {
 					face = faceService.getFaceById(id);
 					tmpfaces.add(face);
 				}
-				test+=1;
 				p1.setFaces(tmpfaces);
 				System.out.println("hey"+test);
 				puzzle[i][j] = p1;
 			}
 		}
 		
-		piecegame = puzzle;
+		return puzzle;
 	}
 
 	public Class<?> getColumnClass() {

@@ -83,6 +83,18 @@ public class Piece {
 		return l;
 	}
 
-	
+	public int nbBord(){
+		if (faces == null) {
+			throw new IllegalStateException(
+					"La liste n'a pas encore ete initialisee...");
+		}
+		int nbBord = 0;
+		for(Face f : faces){
+			if(f.getFace_type() == FaceType.BORD){
+				nbBord +=1;
+			}
+		}
+		return nbBord;
+	}
 	
 }
