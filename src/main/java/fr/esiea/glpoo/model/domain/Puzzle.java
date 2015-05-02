@@ -71,10 +71,12 @@ public class Puzzle extends AbstractTableModel {
 	
 	private Piece[][] generateRandomSolvablePuzzle(Piece[][] puzzle, List<Piece> pieces) {
 		int limited = pieces.size();
-		
+		int a = 0;
 		for(int i=0;i<puzzle.length;i++){
 			for(int j = 0; j<puzzle[0].length ; j ++){
 				puzzle[i][j] = generatePiece(i,j,puzzle,pieces);
+				a+=1;
+				System.out.println("object return"+a);
 			}
 		}
 		
@@ -85,58 +87,100 @@ public class Puzzle extends AbstractTableModel {
 		int game_size = puzzle.length;
 		Piece result=null;
 		Piece p1 = null;
+		Random generator = new Random();
 		do{
-			Random generator = new Random();
 			int random_id = generator.nextInt(pieces.size());
 			p1 = pieces.get(random_id);
 			if(row == 0){
 				if(column == 0){
 					if(p1.nbBord() == 2){
+						p1 = needRotation(row, column, p1, game_size);
 						result = pieces.remove(random_id);
 					}
 				} else if(column == game_size-1){
 					if(p1.nbBord() == 2){
-						result = pieces.remove(random_id);
+						p1 = needRotation(row, column, p1, game_size);
+						result = (p1.getWest_face_id()==puzzle[row][column-1].getEast_face_id())?pieces.remove(random_id):null;
 					}
 				} else{
 					if(p1.nbBord() == 1){
-						result = pieces.remove(random_id);
+						p1 = needRotation(row, column, p1, game_size);
+						result = (p1.getWest_face_id()==puzzle[row][column-1].getEast_face_id())?pieces.remove(random_id):null;
 					}
 				}
 			} else if(row == game_size-1){
 				if(column == 0){
 					if(p1.nbBord() == 2){
-						result = pieces.remove(random_id);
+						p1 = needRotation(row, column, p1, game_size);
+//						result = pieces.remove(random_id);
+						result = (p1.getNorth_face_id()==puzzle[row-1][column].getSouth_face_id())?pieces.remove(random_id):null;
 					}
 				} else if(column == game_size-1){
 					if(p1.nbBord() == 2){
-						result = pieces.remove(random_id);
+						p1 = needRotation(row, column, p1, game_size);
+//						result = pieces.remove(random_id);
+						result = (p1.getNorth_face_id()==puzzle[row-1][column].getSouth_face_id()&&p1.getWest_face_id()==puzzle[row][column-1].getEast_face_id())?pieces.remove(random_id):null;
 					}
 				} else{
 					if(p1.nbBord() == 1){
-						result = pieces.remove(random_id);
+						p1 = needRotation(row, column, p1, game_size);
+//						result = pieces.remove(random_id);
+						result = (p1.getNorth_face_id()==puzzle[row-1][column].getSouth_face_id()&&p1.getWest_face_id()==puzzle[row][column-1].getEast_face_id())?pieces.remove(random_id):null;
 					}
 				}
 			} else {
 				if(column == 0){
 					if(p1.nbBord() == 1){
-						result = pieces.remove(random_id);
+						p1 = needRotation(row, column, p1, game_size);
+//						result = pieces.remove(random_id);
+						result = (p1.getNorth_face_id()==puzzle[row-1][column].getSouth_face_id())?pieces.remove(random_id):null;
 					}
 				} else if(column == game_size-1){
 					if(p1.nbBord() == 1){
-						result = pieces.remove(random_id);
+						p1 = needRotation(row, column, p1, game_size);
+//						result = pieces.remove(random_id);
+						result = (p1.getNorth_face_id()==puzzle[row-1][column].getSouth_face_id()&&p1.getWest_face_id()==puzzle[row][column-1].getEast_face_id())?pieces.remove(random_id):null;
 					}
 				} else{
 					if(p1.nbBord() == 0){
-						result = pieces.remove(random_id);
+						p1 = needRotation(row, column, p1, game_size);
+//						result = pieces.remove(random_id);
+						result = (p1.getNorth_face_id()==puzzle[row-1][column].getSouth_face_id()&&p1.getWest_face_id()==puzzle[row][column-1].getEast_face_id())?pieces.remove(random_id):null;
 					}
 				}
 			}
 		} while (result == null);
+		
 		return result;
 	}
 	
-
+	private Piece needRotation(int row, int column, Piece p, int game_size){
+		
+		if(p.nbBord()>0){
+			if(row==0){
+				while(!p.toString().matches("B...")){
+					p.rotate();
+				}
+			} else if(row == game_size -1){
+				while(!p.toString().matches("..B.")){
+					p.rotate();
+				}
+			}
+			
+			if(column == 0){
+				while(!p.toString().matches("...B")){
+					p.rotate();
+				}
+			} else if (column == game_size - 1){
+				while(!p.toString().matches(".B..")){
+					p.rotate();
+				}
+			}
+			
+		}
+		
+		return p;
+	}
 
 	private Piece[][] generateRandomPiece(Piece[][] puzzle, List<Piece> pieces){
 		Random generator = new Random();

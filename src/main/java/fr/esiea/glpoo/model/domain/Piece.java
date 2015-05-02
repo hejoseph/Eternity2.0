@@ -118,4 +118,30 @@ public class Piece {
 		return nbBord;
 	}
 	
+	public void rotate(){
+		if (faces == null) {
+			throw new IllegalStateException(
+					"La liste n'a pas encore ete initialisee...");
+		}
+		Face tmpface = this.faces.remove(0);
+		this.faces.add(tmpface);
+		this.setNorth_face_id(faces.get(0).getFace_id());
+		this.setEast_face_id(faces.get(1).getFace_id());
+		this.setSouth_face_id(faces.get(2).getFace_id());
+		this.setWest_face_id(faces.get(3).getFace_id());
+	}
+	
+	@Override
+	public String toString(){
+		if (faces == null) {
+			throw new IllegalStateException(
+					"La liste n'a pas encore ete initialisee...");
+		}
+		String result ="";
+		for(Face f : faces){
+			result+=f.getFace_type().getCode();
+		}
+		return result;
+	}
+	
 }
