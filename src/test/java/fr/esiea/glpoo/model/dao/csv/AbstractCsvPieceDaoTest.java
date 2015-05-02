@@ -14,6 +14,12 @@ import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.FaceType;
 import fr.esiea.glpoo.model.domain.Piece;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public abstract class AbstractCsvPieceDaoTest {
 
 	private static final Logger LOGGER = Logger.getLogger(AbstractCsvPieceDaoTest.class);

@@ -5,6 +5,12 @@ import java.util.List;
 
 import fr.esiea.glpoo.model.domain.Face;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public interface FaceDao {
 
 	/**

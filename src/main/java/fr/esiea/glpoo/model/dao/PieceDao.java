@@ -4,6 +4,11 @@ import java.util.List;
 
 import fr.esiea.glpoo.model.domain.Piece;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
 
 public interface PieceDao {
 	

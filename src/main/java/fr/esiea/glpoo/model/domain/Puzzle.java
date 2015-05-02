@@ -13,6 +13,12 @@ import fr.esiea.glpoo.model.service.FaceService;
 import fr.esiea.glpoo.model.service.PieceService;
 import fr.esiea.glpoo.view.LabelDemo;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 /*Model*/
 public class Puzzle extends AbstractTableModel {
 

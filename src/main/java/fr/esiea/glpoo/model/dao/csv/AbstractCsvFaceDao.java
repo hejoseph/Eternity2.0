@@ -8,6 +8,12 @@ import org.apache.log4j.Logger;
 
 import fr.esiea.glpoo.model.domain.Face;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFaceDao {
 
 	private static final Logger LOGGER = Logger

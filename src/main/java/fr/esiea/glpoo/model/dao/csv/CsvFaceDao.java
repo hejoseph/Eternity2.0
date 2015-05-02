@@ -7,6 +7,12 @@ import java.util.Map;
 import fr.esiea.glpoo.model.dao.FaceDao;
 import fr.esiea.glpoo.model.domain.Face;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public interface CsvFaceDao extends FaceDao{
 	
 	/**

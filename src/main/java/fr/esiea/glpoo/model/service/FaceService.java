@@ -15,14 +15,27 @@ import fr.esiea.glpoo.model.dao.csv.OpenCsvFaceDao;
 import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.Piece;
 
+
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public class FaceService {
 	private static final Logger LOGGER = Logger.getLogger(FaceService.class);
 	
 	private CsvFaceDao csvFaceDao;
 	
+	/**
+	 * Instance de la classe, pour le singleton.
+	 */
 	private static FaceService instance;
 	private String fileName;
 	
+	/**
+	 * Cache
+	 */
 	private LoadingCache<String, List<Face>> facesCache;
 	
 	/**
@@ -65,7 +78,11 @@ public class FaceService {
 		return instance;
 	}
 	
-	
+	/**
+	 * 
+	 * @param fileName
+	 * @return
+	 */
 	public List<Face> findAllFaces(final String fileName) {
 		this.fileName = fileName;
 

@@ -1,5 +1,11 @@
 package fr.esiea.glpoo.model.domain;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public class Face {
 
 	private FaceType face_type;

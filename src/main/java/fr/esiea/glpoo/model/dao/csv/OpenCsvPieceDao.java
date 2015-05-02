@@ -13,6 +13,12 @@ import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.FaceType;
 import fr.esiea.glpoo.model.domain.Piece;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public class OpenCsvPieceDao extends AbstractCsvPieceDao{
 	
 	private static final Logger LOGGER = Logger.getLogger(OpenCsvPieceDao.class);

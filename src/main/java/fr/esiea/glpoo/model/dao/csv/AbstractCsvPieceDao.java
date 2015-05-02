@@ -9,6 +9,12 @@ import org.apache.log4j.Logger;
 import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.Piece;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public abstract class AbstractCsvPieceDao extends AbstractCsvDao implements CsvPieceDao{
 	
 	private static final Logger LOGGER = Logger.getLogger(AbstractCsvPieceDao.class);

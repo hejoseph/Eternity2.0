@@ -4,6 +4,12 @@ import java.io.File;
 
 import fr.esiea.glpoo.model.dao.PieceDao;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public interface CsvPieceDao extends PieceDao{
 
 	/**

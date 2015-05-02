@@ -13,6 +13,12 @@ import org.junit.Test;
 import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.Piece;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public class ServiceTest {
 	private static final Logger LOGGER = Logger.getLogger(ServiceTest.class);
 	public final static String RESOURCES_PATH = "src/test/resources/";

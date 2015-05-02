@@ -29,6 +29,12 @@ import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.Piece;
 import fr.esiea.glpoo.model.domain.Puzzle;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 /*View*/
 public class PuzzleJFrame extends JFrame {
 

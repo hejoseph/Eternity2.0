@@ -11,6 +11,12 @@ import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.FaceType;
 import au.com.bytecode.opencsv.CSVReader;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 	
 	private static final Logger LOGGER = Logger.getLogger(OpenCsvFaceDao.class);

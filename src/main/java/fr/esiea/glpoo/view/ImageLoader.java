@@ -7,6 +7,12 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public class ImageLoader extends JPanel{
 	
 	BufferedImage bf;

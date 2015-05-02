@@ -15,6 +15,12 @@ import fr.esiea.glpoo.model.dao.csv.OpenCsvPieceDao;
 import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.Piece;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public class PieceService {
 	private static final Logger LOGGER = Logger.getLogger(PieceService.class);
 	

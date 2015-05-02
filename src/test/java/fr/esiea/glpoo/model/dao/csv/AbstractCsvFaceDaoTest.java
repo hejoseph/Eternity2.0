@@ -14,6 +14,12 @@ import org.junit.Test;
 import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.FaceType;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public abstract class AbstractCsvFaceDaoTest {
 
 	private static final Logger LOGGER = Logger.getLogger(AbstractCsvFaceDaoTest.class);

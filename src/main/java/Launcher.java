@@ -7,6 +7,11 @@ import org.apache.log4j.Logger;
 
 import fr.esiea.glpoo.view.PuzzleJFrame;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
 
 public class Launcher {
 

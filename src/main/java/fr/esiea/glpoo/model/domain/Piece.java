@@ -7,6 +7,12 @@ import org.apache.log4j.Logger;
 
 import fr.esiea.glpoo.model.service.FaceService;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public class Piece {
 	
 	private static final Logger LOGGER = Logger.getLogger(Piece.class);

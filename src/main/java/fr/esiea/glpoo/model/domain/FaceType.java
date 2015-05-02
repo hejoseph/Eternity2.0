@@ -1,5 +1,11 @@
 package fr.esiea.glpoo.model.domain;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public enum FaceType {
 
 	FACE("F"),

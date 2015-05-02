@@ -14,6 +14,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import fr.esiea.glpoo.model.domain.Puzzle;
 import fr.esiea.glpoo.view.PuzzleJFrame;
 
+/**
+ * 
+ * @author Joseph HE, Stefan ANGOSO, Antoine GUIDIS
+ *
+ */
+
 public class PuzzleController {
 	private PuzzleJFrame view;
 	private Puzzle model;
