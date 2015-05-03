@@ -47,14 +47,25 @@ public class PuzzleJFrame extends JFrame {
 	private static final Logger LOGGER = Logger.getLogger(PuzzleJFrame.class);
 
 	private JButton buttonRotate;
+	private JButton buttonMove;
 	
+	/*Data Loaded*/
 	private Puzzle model;
+	
+	/*Playground*/
+	private Puzzle model_game;
+	
+	/*temporary model*/
+	private Puzzle newModelSelected, oldModelSelected = null;
+	
+	private int newSelectedRow, newSelectedColumn, oldSelectedRow, oldSelectedColumn,rowBoardGame, columnBoardGame, rowBoard, colBoard = -2;
 
-	private int selectedRow, selectedColumn =-1;
-
-	// private Puzzle model;
+	/*for loading data before playing*/
 	private JTable table;
 
+	/*playground*/
+	private JTable table_game;
+	
 	public PuzzleJFrame() {
 		super();
 
@@ -64,7 +75,7 @@ public class PuzzleJFrame extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		JPanel container = new JPanel();
-		model = new Puzzle();
+		model = new Puzzle(4,true);
 		table = new JTable(model);
 		table.setTableHeader(null);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -89,23 +100,93 @@ public class PuzzleJFrame extends JFrame {
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				selectedRow = table.rowAtPoint(evt.getPoint());
-				selectedColumn = table.columnAtPoint(evt.getPoint());
-				buttonRotate.setEnabled(true);
+				LOGGER.debug("in click");
+				model.setClicked(true);
+				rowBoard = table.rowAtPoint(evt.getPoint());
+				colBoard = table.columnAtPoint(evt.getPoint());
+				
+				oldSelectedRow = newSelectedRow;
+				oldSelectedColumn = newSelectedColumn;
+				newSelectedRow = rowBoard;
+				newSelectedColumn = colBoard;
+				oldModelSelected = newModelSelected;
+				newModelSelected = model;
+				if(newModelSelected.getValueAt(newSelectedRow, newSelectedColumn)!=null){
+					buttonRotate.setEnabled(true);
+				} else {
+					buttonRotate.setEnabled(false);
+				}
+//				LOGGER.debug("before move");
+				if(oldModelSelected != null && newModelSelected != null){
+					buttonMove.setEnabled(true);
+				}
+//				LOGGER.debug("after handle");
 			}
 		});
 
 		final JPanel boutons = new JPanel();
+		boutons.setLayout(new BoxLayout(boutons, BoxLayout.Y_AXIS));
 		buttonRotate = new JButton(new RotateImage());
 		buttonRotate.setEnabled(false);
 		boutons.add(buttonRotate);
-		boutons.setBounds(0, 0, boutons.getPreferredSize().width, 40);
+		
+		buttonMove = new JButton(new MoveImage());
+		buttonMove.setEnabled(false);
+		boutons.add(buttonMove);
+		
+		boutons.setBounds(500, 200, boutons.getPreferredSize().width, boutons.getPreferredSize().height);
 
+		model_game = new Puzzle(4,false);
+		table_game = new JTable(model_game);
+		table_game.setTableHeader(null);
+		table_game.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table_game.setRowHeight(100);
+		column = null;
+		for (int i = 0; i < 4; i++) {
+			column = table_game.getColumnModel().getColumn(i);
+			column.setPreferredWidth(100);
+		}
+		JScrollPane scrollPane2 = new JScrollPane(table_game);
+		scrollPane2.setBounds(800, 200, 403, 403);
+		
+		for (int i = 0; i < 4; i++) {
+			table_game.getColumnModel().getColumn(i)
+					.setCellRenderer(new ImageRenderer());
+		}
+		
+		table_game.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				model_game.setClicked(true);
+				rowBoardGame = table_game.rowAtPoint(evt.getPoint());
+				columnBoardGame = table_game.columnAtPoint(evt.getPoint());
+				oldSelectedRow = newSelectedRow;
+				oldSelectedColumn = newSelectedColumn;
+				newSelectedRow = rowBoardGame;
+				newSelectedColumn = columnBoardGame;
+				oldModelSelected = newModelSelected;
+				newModelSelected = model_game;
+				System.out.println(((Piece) newModelSelected.getValueAt(rowBoardGame, columnBoardGame)));
+				if(newModelSelected.getValueAt(newSelectedRow, newSelectedColumn)!=null){
+					System.out.println("haha");
+					buttonRotate.setEnabled(true);
+				}else{
+					buttonRotate.setEnabled(false);
+				}
+				if(oldModelSelected != null && newModelSelected != null){
+					buttonMove.setEnabled(true);
+				}
+				System.out.println("old : " + oldSelectedRow + " " +oldSelectedColumn );
+				System.out.println("new : " + newSelectedRow + " " +newSelectedColumn );
+			}
+		});
+		
 		container.add(boutons);
 		container.add(scrollPane);
+		container.add(scrollPane2);
 		container.setLayout(null);
 		// container.setBounds(0, 0, 500, 500);
-		container.setBackground(Color.RED);
+//		container.setBackground(Color.RED);
 		setContentPane(container);
 		// getContentPane().add(scrollPane, BorderLayout.CENTER);
 
@@ -125,7 +206,9 @@ public class PuzzleJFrame extends JFrame {
 	}
 
 	class RotateImage extends AbstractAction {
-
+		
+		
+		
 		private RotateImage() {
 			super("Pivoter");
 		}
@@ -133,7 +216,27 @@ public class PuzzleJFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			LOGGER.debug("Click sur le bouton pivoter");
-			model.rotateImage(selectedRow,selectedColumn);
+			newModelSelected.rotateImage(newSelectedRow,newSelectedColumn);
+		}
+	}
+	
+	class MoveImage extends AbstractAction {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private MoveImage() {
+			super("Deplacer");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Piece tmpPieceModel = (Piece) oldModelSelected.getValueAt(oldSelectedRow, oldSelectedColumn);
+			Piece tmpPieceBoardGame = (Piece) newModelSelected.getValueAt(newSelectedRow, newSelectedColumn);
+			oldModelSelected.setValueAt(tmpPieceBoardGame, oldSelectedRow, oldSelectedColumn);
+			newModelSelected.setValueAt(tmpPieceModel, newSelectedRow, newSelectedColumn);
 		}
 	}
 

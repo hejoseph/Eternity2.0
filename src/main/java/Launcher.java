@@ -20,12 +20,19 @@ public class Launcher {
 	
 	public static void main(String[] args) {
 
-				JFrame view = new PuzzleJFrame();
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	JFrame view = new PuzzleJFrame();
+            	view.setVisible(true);
+            }
+        });
+		
+//				JFrame view = new PuzzleJFrame();
 				
 //				Puzzle model = new Puzzle();
 //				PuzzleController controller = new PuzzleController(view, model);
 //				controller.initPuzzle();
-				view.setVisible(true);
+//				view.setVisible(true);
 				
 	}
 	

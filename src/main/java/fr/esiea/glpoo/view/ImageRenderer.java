@@ -44,6 +44,10 @@ public class ImageRenderer extends DefaultTableCellRenderer {
 	 */
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
+		if(value == null){
+			return null;
+		}
+		
 		container = new JPanel();
 //		LOGGER.debug("returning label");
 //		LOGGER.debug("row = " + row);

@@ -42,10 +42,26 @@ public class Puzzle extends AbstractTableModel {
 			{ "test13.png", "test14.png", "test15.png", "test16.png" } };
 	
 	Boolean generated;
+	Boolean clicked = false;
+	
+	public Boolean getClicked() {
+		return this.clicked;
+	}
 
-	public Puzzle() {
+	public void setClicked(Boolean clicked) {
+		this.clicked = clicked;
+	}
+
+	public Puzzle(int size, Boolean generate) {
 		super();
-		generated=false;
+		
+		generated=generate;
+		piecegame = new Piece[size][size];
+		if(!generate){
+			initPuzzle();
+			return;
+		}
+		
 		List<Piece> pieces = pieceService.findAllPieces(RESOURCES_PATH
 				+ PIECES_FILE_NAME);
 		List<Face> faces = faceService.findAllFaces(RESOURCES_PATH
@@ -61,13 +77,21 @@ public class Puzzle extends AbstractTableModel {
 		}		
 		int test=0;
 		LOGGER.debug("taille de la base de donnee de piece :" + pieces.size());
-		Piece[][] puzzle = new Piece[4][4];
+		
 		
 //		piecegame = generateRandomPiece(puzzle, pieces);
-		while(!generated){
-			piecegame = generateRandomSolvablePuzzle(puzzle, pieces);
+		while(generated){
+			piecegame = generateRandomSolvablePuzzle(piecegame, pieces);
 		}
 		System.out.println("taille fin : " +pieces.size());
+	}
+	
+	private void initPuzzle(){
+		for(int i = 0 ; i < piecegame.length ; i ++){
+			for(int j = 0 ; j < piecegame[0].length ; j ++){
+				piecegame[i][j] = null;
+			}
+		}
 	}
 	
 	private Piece[][] generateRandomSolvablePuzzle(Piece[][] puzzle, List<Piece> pieces) {
@@ -86,7 +110,7 @@ public class Puzzle extends AbstractTableModel {
 	}
 	
 	private Piece generatePiece(int row, int column, Piece[][] puzzle, List<Piece> pieces){
-		generated = true;
+		generated = false;
 		int game_size = puzzle.length;
 		Piece result=null;
 		Piece p1 = null;
@@ -95,7 +119,7 @@ public class Puzzle extends AbstractTableModel {
 		do{
 			if(start==pieces.size()){
 				System.out.println("oh");
-				generated = false;
+				generated = true;
 				return null;
 			}
 			int random_id = generator.nextInt(pieces.size());
@@ -267,6 +291,12 @@ public class Puzzle extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		return piecegame[rowIndex][columnIndex];
+	}
+	
+	@Override
+	public void setValueAt(Object o, int rowIndex, int columnIndex){
+		piecegame[rowIndex][columnIndex] = (Piece) o;
+		fireTableRowsInserted(rowIndex, rowIndex);
 	}
 
 	public void rotateAllImages() {
