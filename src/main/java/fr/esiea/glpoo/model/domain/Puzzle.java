@@ -142,11 +142,22 @@ public class Puzzle extends AbstractTableModel {
 						result = (p1.getNorth_face_id()==puzzle[row-1][column].getSouth_face_id()&&p1.getWest_face_id()==puzzle[row][column-1].getEast_face_id())?pieces.remove(random_id):null;
 					}
 				} else{
-					if(p1.nbBord() == 0){
-						p1 = needRotation(row, column, p1, game_size);
-//						result = pieces.remove(random_id);
-						result = (p1.getNorth_face_id()==puzzle[row-1][column].getSouth_face_id()&&p1.getWest_face_id()==puzzle[row][column-1].getEast_face_id())?pieces.remove(random_id):null;
-					}
+//					System.out.println("size : "+pieces.size());
+//						System.out.println("at : "+random_id);
+						if(p1.nbBord() == 0){
+//							p1 = needRotation(row, column, p1, game_size);
+	//						result = pieces.remove(random_id);
+							int nbRotation = 3;
+							while(nbRotation>=0){
+								result = (p1.getNorth_face_id()==puzzle[row-1][column].getSouth_face_id()&&p1.getWest_face_id()==puzzle[row][column-1].getEast_face_id())?pieces.remove(random_id):null;
+								if(result!=null){
+									break;
+								}
+								p1.rotate();
+								nbRotation-=1;
+							}
+						}
+//						System.out.println("before getting");
 				}
 			}
 		} while (result == null);
@@ -176,9 +187,7 @@ public class Puzzle extends AbstractTableModel {
 					p.rotate();
 				}
 			}
-			
 		}
-		
 		return p;
 	}
 
