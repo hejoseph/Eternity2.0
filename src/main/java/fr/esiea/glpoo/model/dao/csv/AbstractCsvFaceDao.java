@@ -34,16 +34,9 @@ public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFa
 			throw new IllegalStateException(
 					"La liste n'a pas encore ete initialisee...");
 		}
-		for(Face face : faces){
-			LOGGER.debug(face.getBg_color());
-		}
 		return faces;
 	}
 	
-//	@Override
-//	public List<String> getEntetes() {
-//		return entetes;
-//	}
 	
 	@Override
 	public File getFile() {
@@ -65,7 +58,6 @@ public abstract class AbstractCsvFaceDao extends AbstractCsvDao implements CsvFa
 		if (faces == null) {
 			throw new IllegalStateException("La liste n'a pas encore ete initialisee...");
 		}
-		LOGGER.debug("before returning id from hashmap and id was : "+id);
 		return faceMapById.get(id);
 	}
 	

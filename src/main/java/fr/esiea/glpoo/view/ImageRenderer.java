@@ -45,22 +45,22 @@ public class ImageRenderer extends DefaultTableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 		container = new JPanel();
-		LOGGER.debug("returning label");
-		LOGGER.debug("row = " + row);
-		LOGGER.debug("column = " + column);
-		LOGGER.debug("value = " + value);
-		
-		LOGGER.debug("loading image");
+//		LOGGER.debug("returning label");
+//		LOGGER.debug("row = " + row);
+//		LOGGER.debug("column = " + column);
+//		LOGGER.debug("value = " + value);
+//		
+//		LOGGER.debug("loading image");
 		BufferedImage bf = null;
 		
 		Piece p = (Piece)value;
 		List<Face> faces = p.getFaces();
 		Double[] angle = {Math.PI/2,Math.PI/1,-Math.PI/2,Math.PI/0.5};
 		for(int i = 0; i< faces.size();i++){
-			LOGGER.debug("nombre de face pour la piece : "+faces.size());
+//			LOGGER.debug("nombre de face pour la piece : "+faces.size());
 			try {
 				String img_name = faces.get(i).getImg_name();
-				LOGGER.debug("nom de l'image a lire: "+img_name);
+//				LOGGER.debug("nom de l'image a lire: "+img_name);
 				bf = ImageIO.read(new File("src/main/resources/"+img_name));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

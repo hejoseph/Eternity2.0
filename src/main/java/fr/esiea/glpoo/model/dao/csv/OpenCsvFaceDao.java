@@ -35,13 +35,13 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 			
 //			final String[] ligneEntete = lignes.remove(0);
 //			transformEntetes(ligneEntete);
-			for(String[] s : lignes){
-				String msg ="";
-				for(String value : s){
-					msg += value + " ";
-				}
-				LOGGER.debug(msg);
-			}
+//			for(String[] s : lignes){
+//				String msg ="";
+//				for(String value : s){
+//					msg += value + " ";
+//				}
+//				LOGGER.debug(msg);
+//			}
 			faces = new ArrayList<Face>(lignes.size());
 			faceMapById = new HashMap<Integer, Face>(lignes.size());
 			for (String[] ligne : lignes) {
@@ -49,9 +49,9 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 				for(String value : ligne){
 					msg += value + " ";
 				}
-				LOGGER.debug(msg);
+//				LOGGER.debug(msg);
 				final Face face = transformLigneToFace(ligne);
-				LOGGER.debug("color = "+face.getBg_color());
+//				LOGGER.debug("color = "+face.getBg_color());
 				faces.add(face);
 				
 				faceMapById.put(face.getFace_id(), face);
@@ -89,9 +89,7 @@ public class OpenCsvFaceDao extends AbstractCsvFaceDao{
 		face.setFace_type(ft);
 		
 		face.setFace_id(Integer.parseInt(values[1]));
-		LOGGER.debug("WARNING before Set: "+values[2]);
 		face.setBg_color(values[2]);
-		LOGGER.debug("WARNING After Set: "+face.getBg_color());
 		if(values.length == 3){
 			return face;
 		}
