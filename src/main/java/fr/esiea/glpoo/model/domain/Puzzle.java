@@ -269,4 +269,18 @@ public class Puzzle extends AbstractTableModel {
 		return piecegame[rowIndex][columnIndex];
 	}
 
+	public void rotateAllImages() {
+		for(Piece[] pieces : piecegame){
+			for(Piece piece : pieces){
+				piece.rotate();
+			}
+		}
+		fireTableRowsInserted(0, 3);
+	}
+
+	public void rotateImage(int selectedRow, int selectedColumn) {
+		piecegame[selectedRow][selectedColumn].rotate();
+		fireTableRowsInserted(selectedRow, selectedRow);
+	}
+
 }

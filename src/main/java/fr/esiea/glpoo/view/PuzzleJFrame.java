@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileReader;
@@ -13,8 +14,10 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,11 +40,17 @@ import fr.esiea.glpoo.model.domain.Puzzle;
  *
  */
 
-/*View*/
+/* View */
 public class PuzzleJFrame extends JFrame {
 
 	ImageIcon img;
 	private static final Logger LOGGER = Logger.getLogger(PuzzleJFrame.class);
+
+	private JButton buttonRotate;
+	
+	private Puzzle model;
+
+	private int selectedRow, selectedColumn =-1;
 
 	// private Puzzle model;
 	private JTable table;
@@ -53,9 +62,9 @@ public class PuzzleJFrame extends JFrame {
 		setTitle("Eternity 2");
 		setPreferredSize(new Dimension(1300, 700));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		JPanel container = new JPanel();
-		Puzzle model = new Puzzle();
+		model = new Puzzle();
 		table = new JTable(model);
 		table.setTableHeader(null);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -63,10 +72,10 @@ public class PuzzleJFrame extends JFrame {
 		TableColumn column = null;
 		for (int i = 0; i < 4; i++) {
 			column = table.getColumnModel().getColumn(i);
-			column.setPreferredWidth(100); 
+			column.setPreferredWidth(100);
 		}
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(50, 50, 410, 410);
+		scrollPane.setBounds(50, 200, 403, 403);
 		LOGGER.debug("before image renderer");
 		// java.net.URL imgURL =
 		// getClass().getClassLoader().getResource("piece.png");
@@ -77,29 +86,28 @@ public class PuzzleJFrame extends JFrame {
 					.setCellRenderer(new ImageRenderer());
 		}
 
-		// tableau.addMouseListener(new java.awt.event.MouseAdapter() {
-		// @Override
-		// public void mouseClicked(java.awt.event.MouseEvent evt) {
-		// int row = tableau.rowAtPoint(evt.getPoint());
-		// int col = tableau.columnAtPoint(evt.getPoint());
-		// LOGGER.debug("inside event click");
-		//
-		// java.net.URL imgURL =
-		// getClass().getClassLoader().getResource("black.png");
-		// System.out.println(imgURL);
-		// img = new ImageIcon(imgURL);
-		// tableau.getColumnModel().getColumn(0).setCellRenderer(new
-		// ImageRenderer(img));
-		// // fireTableRowsInserted(0, 0);
-		// }
-		// });
-		
+		table.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				selectedRow = table.rowAtPoint(evt.getPoint());
+				selectedColumn = table.columnAtPoint(evt.getPoint());
+				buttonRotate.setEnabled(true);
+			}
+		});
+
+		final JPanel boutons = new JPanel();
+		buttonRotate = new JButton(new RotateImage());
+		buttonRotate.setEnabled(false);
+		boutons.add(buttonRotate);
+		boutons.setBounds(0, 0, boutons.getPreferredSize().width, 40);
+
+		container.add(boutons);
 		container.add(scrollPane);
 		container.setLayout(null);
-//		container.setBounds(0, 0, 500, 500);
+		// container.setBounds(0, 0, 500, 500);
 		container.setBackground(Color.RED);
 		setContentPane(container);
-//		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		// getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 		// java.net.URL imgURL =
 		// getClass().getClassLoader().getResource("black.png");
@@ -116,7 +124,17 @@ public class PuzzleJFrame extends JFrame {
 		this.table = table;
 	}
 
+	class RotateImage extends AbstractAction {
+
+		private RotateImage() {
+			super("Pivoter");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			LOGGER.debug("Click sur le bouton pivoter");
+			model.rotateImage(selectedRow,selectedColumn);
+		}
+	}
+
 }
-
-
-
