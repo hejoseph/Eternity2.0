@@ -144,4 +144,8 @@ public class Piece {
 		return result;
 	}
 	
+	public String getFacesPattern(){
+		return ""+north_face_id+east_face_id+south_face_id+west_face_id;
+	}
+	
 }

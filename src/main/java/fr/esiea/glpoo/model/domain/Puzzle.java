@@ -40,9 +40,12 @@ public class Puzzle extends AbstractTableModel {
 			{ "test5.png", "test6.png", "test7.png", "test8.png" },
 			{ "test9.png", "test10.png",/* vide */"", "test12.png" },
 			{ "test13.png", "test14.png", "test15.png", "test16.png" } };
+	
+	Boolean generated;
 
 	public Puzzle() {
 		super();
+		generated=false;
 		List<Piece> pieces = pieceService.findAllPieces(RESOURCES_PATH
 				+ PIECES_FILE_NAME);
 		List<Face> faces = faceService.findAllFaces(RESOURCES_PATH
@@ -55,40 +58,46 @@ public class Puzzle extends AbstractTableModel {
 				lf.add(f);
 			}
 			p.setFaces(lf);
-		}
-		
-		int game_size = 16;
-		
+		}		
 		int test=0;
 		LOGGER.debug("taille de la base de donnee de piece :" + pieces.size());
 		Piece[][] puzzle = new Piece[4][4];
 		
 //		piecegame = generateRandomPiece(puzzle, pieces);
-		
-		piecegame = generateRandomSolvablePuzzle(puzzle, pieces);
-		
+		while(!generated){
+			piecegame = generateRandomSolvablePuzzle(puzzle, pieces);
+		}
+		System.out.println("taille fin : " +pieces.size());
 	}
 	
 	private Piece[][] generateRandomSolvablePuzzle(Piece[][] puzzle, List<Piece> pieces) {
 		int limited = pieces.size();
+		Object p = ((ArrayList<Piece>) pieces).clone();
 		int a = 0;
 		for(int i=0;i<puzzle.length;i++){
 			for(int j = 0; j<puzzle[0].length ; j ++){
-				puzzle[i][j] = generatePiece(i,j,puzzle,pieces);
+				puzzle[i][j] = generatePiece(i,j,puzzle, (List<Piece>)p);
 				a+=1;
 				System.out.println("object return"+a);
 			}
 		}
-		
+		System.out.println("generated");
 		return puzzle;
 	}
 	
 	private Piece generatePiece(int row, int column, Piece[][] puzzle, List<Piece> pieces){
+		generated = true;
 		int game_size = puzzle.length;
 		Piece result=null;
 		Piece p1 = null;
 		Random generator = new Random();
+		int start = 0;
 		do{
+			if(start==pieces.size()){
+				System.out.println("oh");
+				generated = false;
+				return null;
+			}
 			int random_id = generator.nextInt(pieces.size());
 			p1 = pieces.get(random_id);
 			if(row == 0){
@@ -116,10 +125,23 @@ public class Puzzle extends AbstractTableModel {
 						result = (p1.getNorth_face_id()==puzzle[row-1][column].getSouth_face_id())?pieces.remove(random_id):null;
 					}
 				} else if(column == game_size-1){
-					if(p1.nbBord() == 2){
-						p1 = needRotation(row, column, p1, game_size);
-//						result = pieces.remove(random_id);
-						result = (p1.getNorth_face_id()==puzzle[row-1][column].getSouth_face_id()&&p1.getWest_face_id()==puzzle[row][column-1].getEast_face_id())?pieces.remove(random_id):null;
+					while(start < pieces.size() && result==null){
+						p1 = pieces.get(start);
+						if(p1.nbBord() == 2){
+							p1 = needRotation(row, column, p1, game_size);
+							Piece pieceNorth = puzzle[row-1][column];
+							Piece pieceWest = puzzle[row][column-1];
+							LOGGER.debug("Piece West face Est : "+pieceWest.getEast_face_id());
+							LOGGER.debug("Piece Nord, face Sud : "+pieceNorth.getSouth_face_id());
+							LOGGER.debug("(0;0) : "+puzzle[0][0].getFacesPattern());
+							LOGGER.debug("(0;3) : "+puzzle[0][3].getFacesPattern());
+							LOGGER.debug("(3;0) : "+puzzle[3][0].getFacesPattern());
+							LOGGER.debug("Nord : "+p1.getNorth_face_id()+",   Ouest :"+p1.getWest_face_id());
+	//						result = pieces.remove(random_id);
+							result = (p1.getNorth_face_id()==pieceNorth.getSouth_face_id()&&p1.getWest_face_id()==pieceWest.getEast_face_id())?p1:null;
+						}
+						System.out.println(pieces.size()+" "+start);
+						start+=1;
 					}
 				} else{
 					if(p1.nbBord() == 1){
@@ -163,6 +185,17 @@ public class Puzzle extends AbstractTableModel {
 		} while (result == null);
 		
 		return result;
+	}
+	
+	private Piece researchPieceById(List<Piece> pieces, int id){
+		for(Piece p : pieces){
+			if(p.getPiece_id()==id){
+				return p;
+			}
+		}
+		System.out.println("fin du programme");
+		System.exit(0);
+		return null;
 	}
 	
 	private Piece needRotation(int row, int column, Piece p, int game_size){

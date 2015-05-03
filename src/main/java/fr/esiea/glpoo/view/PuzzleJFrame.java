@@ -53,7 +53,8 @@ public class PuzzleJFrame extends JFrame {
 		setTitle("Eternity 2");
 		setPreferredSize(new Dimension(1300, 700));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+		
+		JPanel container = new JPanel();
 		Puzzle model = new Puzzle();
 		table = new JTable(model);
 		table.setTableHeader(null);
@@ -65,7 +66,7 @@ public class PuzzleJFrame extends JFrame {
 			column.setPreferredWidth(100); 
 		}
 		JScrollPane scrollPane = new JScrollPane(table);
-
+		scrollPane.setBounds(50, 50, 410, 410);
 		LOGGER.debug("before image renderer");
 		// java.net.URL imgURL =
 		// getClass().getClassLoader().getResource("piece.png");
@@ -92,7 +93,13 @@ public class PuzzleJFrame extends JFrame {
 		// // fireTableRowsInserted(0, 0);
 		// }
 		// });
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
+		container.add(scrollPane);
+		container.setLayout(null);
+//		container.setBounds(0, 0, 500, 500);
+		container.setBackground(Color.RED);
+		setContentPane(container);
+//		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 		// java.net.URL imgURL =
 		// getClass().getClassLoader().getResource("black.png");
