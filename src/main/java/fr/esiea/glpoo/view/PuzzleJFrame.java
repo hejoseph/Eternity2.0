@@ -116,16 +116,16 @@ public class PuzzleJFrame extends JFrame {
 				} else {
 					buttonRotate.setEnabled(false);
 				}
-//				LOGGER.debug("before move");
 				if(oldModelSelected != null && newModelSelected != null){
 					buttonMove.setEnabled(true);
 				}
-//				LOGGER.debug("after handle");
+				
 			}
 		});
 
 		final JPanel boutons = new JPanel();
 		boutons.setLayout(new BoxLayout(boutons, BoxLayout.Y_AXIS));
+		
 		buttonRotate = new JButton(new RotateImage());
 		buttonRotate.setEnabled(false);
 		boutons.add(buttonRotate);
@@ -134,8 +134,13 @@ public class PuzzleJFrame extends JFrame {
 		buttonMove.setEnabled(false);
 		boutons.add(buttonMove);
 		
+		JButton buttonValidate = new JButton(new ValidatePuzzle());
+		buttonValidate.setEnabled(true);
+		boutons.add(buttonValidate);
 		boutons.setBounds(500, 200, boutons.getPreferredSize().width, boutons.getPreferredSize().height);
 
+		
+		
 		model_game = new Puzzle(4,false);
 		table_game = new JTable(model_game);
 		table_game.setTableHeader(null);
@@ -217,6 +222,11 @@ public class PuzzleJFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			LOGGER.debug("Click sur le bouton pivoter");
 			newModelSelected.rotateImage(newSelectedRow,newSelectedColumn);
+			model.validate();
+			if(model.getFinishedRound()){
+				buttonRotate.setEnabled(false);
+				buttonMove.setEnabled(false);
+			}
 		}
 	}
 	
@@ -237,6 +247,33 @@ public class PuzzleJFrame extends JFrame {
 			Piece tmpPieceBoardGame = (Piece) newModelSelected.getValueAt(newSelectedRow, newSelectedColumn);
 			oldModelSelected.setValueAt(tmpPieceBoardGame, oldSelectedRow, oldSelectedColumn);
 			newModelSelected.setValueAt(tmpPieceModel, newSelectedRow, newSelectedColumn);
+			
+			model.validate();
+			if(model.getFinishedRound()){
+				buttonRotate.setEnabled(false);
+				buttonMove.setEnabled(false);
+			}
+		}
+	}
+	
+	class ValidatePuzzle extends AbstractAction {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private ValidatePuzzle() {
+			super("Valider");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			model.validate();
+			if(model.getFinishedRound()){
+				buttonRotate.setEnabled(false);
+				buttonMove.setEnabled(false);
+			}
 		}
 	}
 

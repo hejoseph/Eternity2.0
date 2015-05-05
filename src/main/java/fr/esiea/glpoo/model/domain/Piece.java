@@ -125,10 +125,6 @@ public class Piece {
 		}
 		Face tmpface = this.faces.remove(0);
 		this.faces.add(tmpface);
-		this.setNorth_face_id(faces.get(0).getFace_id());
-		this.setEast_face_id(faces.get(1).getFace_id());
-		this.setSouth_face_id(faces.get(2).getFace_id());
-		this.setWest_face_id(faces.get(3).getFace_id());
 	}
 	
 	@Override
@@ -146,6 +142,10 @@ public class Piece {
 	
 	public String getFacesPattern(){
 		return ""+north_face_id+east_face_id+south_face_id+west_face_id;
+	}
+	
+	public int getFaceIdAt(int i){
+		return this.getFaces().get(i).getFace_id();
 	}
 	
 }
