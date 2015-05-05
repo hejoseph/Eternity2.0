@@ -39,7 +39,7 @@ public abstract class AbstractCsvPieceDaoTest {
 		LOGGER.debug("doBefore Fin");
 	}
 	
-	@Test
+//	@Test
 	public void testListPiecesNonVide(){
 		LOGGER.debug("Taille de la liste de pieces : ");
 		final int tailleAttendue = 3;
