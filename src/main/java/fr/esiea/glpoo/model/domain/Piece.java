@@ -28,8 +28,8 @@ public class Piece {
 	private int east_face_id;
 	private int west_face_id;
 	
-	/* pour la sauvegarde*/
-//	private Orientation o;
+
+	private Orientation orientation;
 	
 	
 
@@ -41,8 +41,24 @@ public class Piece {
 		this.south_face_id = south_face_id;
 		this.east_face_id = east_face_id;
 		this.west_face_id = west_face_id;
+		
+		this.orientation = Orientation.NORD;
 	}
 	
+
+
+	public Orientation getOrientation() {
+		return orientation;
+	}
+
+
+
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
+	}
+
+
+
 	/**
 	 * Retourne la liste des faces d'une piece
 	 * @return Liste de faces
@@ -125,6 +141,24 @@ public class Piece {
 		}
 		Face tmpface = this.faces.remove(0);
 		this.faces.add(tmpface);
+		this.orientation = this.orientation.next();
+	}
+	
+	/**
+	 * Utile lors du chargement des pieces d'une partie
+	 * @param nbRotation
+	 */
+	public void rotate(int nbRotation){
+		if (faces == null) {
+			throw new IllegalStateException(
+					"La liste n'a pas encore ete initialisee...");
+		}
+		Face tmpface;
+		for(int nb = 0 ; nb <nbRotation;nb++){
+			tmpface = this.faces.remove(0);
+			this.faces.add(tmpface);
+
+		}
 	}
 	
 	@Override

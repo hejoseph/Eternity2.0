@@ -9,6 +9,8 @@ import javax.swing.table.AbstractTableModel;
 
 import org.apache.log4j.Logger;
 
+import fr.esiea.glpoo.model.domain.Face;
+import fr.esiea.glpoo.model.domain.Piece;
 import fr.esiea.glpoo.model.service.FaceService;
 import fr.esiea.glpoo.model.service.PieceService;
 
@@ -447,7 +449,7 @@ public class Puzzle extends AbstractTableModel {
 	}
 
 	public Boolean getFinishedRound() {
-		return finishedRound;
+		return this.finishedRound;
 	}
 
 	public void setFinishedRound(Boolean finishedRound) {

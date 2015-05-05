@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileReader;
@@ -20,6 +21,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -101,9 +105,17 @@ public class PuzzleJFrame extends JFrame {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				LOGGER.debug("in click");
+				
 				model.setClicked(true);
 				rowBoard = table.rowAtPoint(evt.getPoint());
 				colBoard = table.columnAtPoint(evt.getPoint());
+				Piece p = ((Piece)model.getValueAt(rowBoard, colBoard));
+				String list1="[ ";
+				for(Face f : p.getFaces()){
+					list1+=f.getFace_id() + " ";
+				}
+				list1+="]";
+				LOGGER.debug(p.getOrientation().getCode()+"   "+p.get_faces_id()+"   Affichage"+list1+ "  Nord:"+p.getNorth_face_id()+ "   Est:"+p.getEast_face_id()+"   Sud:"+p.getSouth_face_id()+"   West:"+p.getWest_face_id());
 				
 				oldSelectedRow = newSelectedRow;
 				oldSelectedColumn = newSelectedColumn;
@@ -120,9 +132,11 @@ public class PuzzleJFrame extends JFrame {
 					buttonMove.setEnabled(true);
 				}
 				
+				
+				
 			}
 		});
-
+		
 		final JPanel boutons = new JPanel();
 		boutons.setLayout(new BoxLayout(boutons, BoxLayout.Y_AXIS));
 		
@@ -198,8 +212,32 @@ public class PuzzleJFrame extends JFrame {
 		// java.net.URL imgURL =
 		// getClass().getClassLoader().getResource("black.png");
 		// System.out.println(imgURL);
-
+		
+		addMenu();
+		
 		pack();
+	}
+
+	private void addMenu() {
+		final JMenuBar menuBar = new JMenuBar();
+
+		// Menu Fichier
+		final JMenu menuFichier = new JMenu("Fichier");
+		menuBar.add(menuFichier);
+		
+//		final JMenuItem menuOuvrir = new JMenuItem(new OuvrirAction("Ouvrir"));
+//		menuFichier.add(menuOuvrir);
+//		final JMenuItem menuSauver = new JMenuItem(new SauverAction("Sauver"));
+//		menuFichier.add(menuSauver);
+//		menuFichier.addSeparator();
+		final JMenuItem newMenu = new JMenuItem(new NewGame("New Game"));
+		menuFichier.add(newMenu);
+		menuFichier.addSeparator();
+		final JMenuItem quitMenu = new JMenuItem(new QuitAction("Quit"));
+		menuFichier.add(quitMenu);
+		
+		setJMenuBar(menuBar);
+		
 	}
 
 	public JTable getTableau() {
@@ -271,9 +309,39 @@ public class PuzzleJFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			model.validate();
 			if(model.getFinishedRound()){
-				buttonRotate.setEnabled(false);
-				buttonMove.setEnabled(false);
+//				buttonRotate.setEnabled(false);
+//				buttonMove.setEnabled(false);
+				System.exit(0);
 			}
+		}
+	}
+	
+	private class NewGame extends AbstractAction {
+		public NewGame(String texte) {
+			super(texte);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			LOGGER.info("Au revoir");
+			setVisible(false);
+			dispose();
+			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+	            public void run() {
+	            	JFrame view = new PuzzleJFrame();
+	            	view.setVisible(true);
+	            }
+	        });
+		}
+	}
+	
+	private class QuitAction extends AbstractAction {
+		public QuitAction(String text) {
+			super(text);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			LOGGER.info("Au revoir");
+			System.exit(0);
 		}
 	}
 
