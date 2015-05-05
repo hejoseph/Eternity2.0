@@ -18,23 +18,23 @@ import fr.esiea.glpoo.view.PuzzleJFrame;
 public class Launcher {
 
 	private static final Logger LOGGER = Logger.getLogger(Launcher.class);
-	
+
 	public static void main(String[] args) {
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	JFrame view = new PuzzleJFrame();
-            	view.setVisible(true);
-            }
-        });
-		
-//				JFrame view = new PuzzleJFrame();
-				
-//				Puzzle model = new Puzzle();
-//				PuzzleController controller = new PuzzleController(view, model);
-//				controller.initPuzzle();
-//				view.setVisible(true);
-				
+			public void run() {
+				JFrame view = new PuzzleJFrame();
+				view.setVisible(true);
+			}
+		});
+
+		// JFrame view = new PuzzleJFrame();
+
+		// Puzzle model = new Puzzle();
+		// PuzzleController controller = new PuzzleController(view, model);
+		// controller.initPuzzle();
+		// view.setVisible(true);
+
 	}
-	
+
 }

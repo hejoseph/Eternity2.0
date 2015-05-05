@@ -84,4 +84,12 @@ public class PieceService {
 		}
 	}
 	
+	public void save(final Piece[][] puzzle){
+		final String target = "src/main/resources/partie-01.csv";
+
+		final File file = new File(target);
+
+		csvPieceDao.save(puzzle, file);
+	}
+	
 }

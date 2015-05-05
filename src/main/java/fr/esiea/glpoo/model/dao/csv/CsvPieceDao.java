@@ -3,6 +3,7 @@ package fr.esiea.glpoo.model.dao.csv;
 import java.io.File;
 
 import fr.esiea.glpoo.model.dao.PieceDao;
+import fr.esiea.glpoo.model.domain.Piece;
 
 /**
  * 
@@ -28,5 +29,9 @@ public interface CsvPieceDao extends PieceDao{
 	 * @return
 	 */
 	File getFile();
+
+	void save(Piece[][] puzzle, File file);
+	
+	
 	
 }
