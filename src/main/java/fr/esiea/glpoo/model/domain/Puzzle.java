@@ -68,7 +68,7 @@ public class Puzzle extends AbstractTableModel {
 				+ PIECES_FILE_NAME);
 		List<Face> faces = faceService.findAllFaces(RESOURCES_PATH
 				+ FACES_FILE_NAME);
-
+		
 		for (Piece p : pieces) {
 			List<Face> lf = new ArrayList<Face>();
 			for (Integer face_id : p.get_faces_id()) {

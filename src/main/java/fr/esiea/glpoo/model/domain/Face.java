@@ -78,5 +78,5 @@ public class Face {
 	public void setImg_name(String img_name) {
 		this.img_name = img_name;
 	}
-
+		
 }

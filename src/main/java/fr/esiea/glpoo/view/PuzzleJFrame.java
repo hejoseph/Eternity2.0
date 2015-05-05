@@ -75,7 +75,7 @@ public class PuzzleJFrame extends JFrame {
 
 		LOGGER.debug("constructor ...");
 		setTitle("Eternity 2");
-		setPreferredSize(new Dimension(1300, 700));
+		setPreferredSize(new Dimension(1300, 600));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		JPanel container = new JPanel();
@@ -90,7 +90,7 @@ public class PuzzleJFrame extends JFrame {
 			column.setPreferredWidth(100);
 		}
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(50, 200, 403, 403);
+		scrollPane.setBounds(50, 50, 403, 403);
 		LOGGER.debug("before image renderer");
 		// java.net.URL imgURL =
 		// getClass().getClassLoader().getResource("piece.png");
@@ -109,13 +109,13 @@ public class PuzzleJFrame extends JFrame {
 				model.setClicked(true);
 				rowBoard = table.rowAtPoint(evt.getPoint());
 				colBoard = table.columnAtPoint(evt.getPoint());
-				Piece p = ((Piece)model.getValueAt(rowBoard, colBoard));
-				String list1="[ ";
-				for(Face f : p.getFaces()){
-					list1+=f.getFace_id() + " ";
-				}
-				list1+="]";
-				LOGGER.debug(p.getOrientation().getCode()+"   "+p.get_faces_id()+"   Affichage"+list1+ "  Nord:"+p.getNorth_face_id()+ "   Est:"+p.getEast_face_id()+"   Sud:"+p.getSouth_face_id()+"   West:"+p.getWest_face_id());
+//				Piece p = ((Piece)model.getValueAt(rowBoard, colBoard));
+//				String list1="[ ";
+//				for(Face f : p.getFaces()){
+//					list1+=f.getFace_id() + " ";
+//				}
+//				list1+="]";
+//				LOGGER.debug(p.getOrientation().getCode()+"   "+p.get_faces_id()+"   Affichage"+list1+ "  Nord:"+p.getNorth_face_id()+ "   Est:"+p.getEast_face_id()+"   Sud:"+p.getSouth_face_id()+"   West:"+p.getWest_face_id());
 				
 				oldSelectedRow = newSelectedRow;
 				oldSelectedColumn = newSelectedColumn;
@@ -123,16 +123,18 @@ public class PuzzleJFrame extends JFrame {
 				newSelectedColumn = colBoard;
 				oldModelSelected = newModelSelected;
 				newModelSelected = model;
+				LOGGER.debug(newModelSelected.equals(model));
 				if(newModelSelected.getValueAt(newSelectedRow, newSelectedColumn)!=null){
 					buttonRotate.setEnabled(true);
+					LOGGER.debug("or not !");
 				} else {
 					buttonRotate.setEnabled(false);
 				}
 				if(oldModelSelected != null && newModelSelected != null){
-					buttonMove.setEnabled(true);
+					if(oldModelSelected.getValueAt(oldSelectedRow, oldSelectedColumn) != null || newModelSelected.getValueAt(newSelectedRow, newSelectedColumn) != null ){
+						buttonMove.setEnabled(true);
+					}
 				}
-				
-				
 				
 			}
 		});
@@ -166,7 +168,7 @@ public class PuzzleJFrame extends JFrame {
 			column.setPreferredWidth(100);
 		}
 		JScrollPane scrollPane2 = new JScrollPane(table_game);
-		scrollPane2.setBounds(800, 200, 403, 403);
+		scrollPane2.setBounds(800, 50, 403, 403);
 		
 		for (int i = 0; i < 4; i++) {
 			table_game.getColumnModel().getColumn(i)
@@ -193,7 +195,9 @@ public class PuzzleJFrame extends JFrame {
 					buttonRotate.setEnabled(false);
 				}
 				if(oldModelSelected != null && newModelSelected != null){
-					buttonMove.setEnabled(true);
+					if(oldModelSelected.getValueAt(oldSelectedRow, oldSelectedColumn) != null || newModelSelected.getValueAt(newSelectedRow, newSelectedColumn) != null ){
+						buttonMove.setEnabled(true);
+					}
 				}
 				System.out.println("old : " + oldSelectedRow + " " +oldSelectedColumn );
 				System.out.println("new : " + newSelectedRow + " " +newSelectedColumn );
@@ -285,12 +289,14 @@ public class PuzzleJFrame extends JFrame {
 			Piece tmpPieceBoardGame = (Piece) newModelSelected.getValueAt(newSelectedRow, newSelectedColumn);
 			oldModelSelected.setValueAt(tmpPieceBoardGame, oldSelectedRow, oldSelectedColumn);
 			newModelSelected.setValueAt(tmpPieceModel, newSelectedRow, newSelectedColumn);
+			buttonMove.setEnabled(false);
 			
-			model.validate();
-			if(model.getFinishedRound()){
-				buttonRotate.setEnabled(false);
-				buttonMove.setEnabled(false);
-			}
+			oldModelSelected=newModelSelected=null;
+//			model.validate();
+//			if(model.getFinishedRound()){
+//				buttonRotate.setEnabled(false);
+//				buttonMove.setEnabled(false);
+//			}
 		}
 	}
 	
