@@ -1,5 +1,7 @@
 package fr.esiea.glpoo.view;
 
+//import TableTransferHandler;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -155,6 +157,9 @@ public class PuzzleJFrame extends JFrame {
 
 			}
 		});
+		table.setDragEnabled(true);
+		table.setTransferHandler(new PieceTransferHandler());
+		
 
 		final JPanel boutons = new JPanel();
 		boutons.setLayout(new BoxLayout(boutons, BoxLayout.Y_AXIS));
@@ -236,6 +241,9 @@ public class PuzzleJFrame extends JFrame {
 			}
 		});
 
+		table_game.setDragEnabled(true);
+		table_game.setTransferHandler(new PieceTransferHandler());
+		
 		container.add(boutons);
 		container.add(scrollPane);
 		container.add(scrollPane2);
@@ -250,7 +258,7 @@ public class PuzzleJFrame extends JFrame {
 		// System.out.println(imgURL);
 
 		addMenu();
-
+	
 		pack();
 	}
 
@@ -366,6 +374,7 @@ public class PuzzleJFrame extends JFrame {
 				finishedGameJDialog.add(msg,BorderLayout.CENTER);
 				finishedGameJDialog.setPreferredSize(new Dimension(200,200));
 				finishedGameJDialog.pack();
+				finishedGameJDialog.setLocationRelativeTo(null);
 				finishedGameJDialog.setVisible(true);
 				timer.stop();
 				// buttonRotate.setEnabled(false);

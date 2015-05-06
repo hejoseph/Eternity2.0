@@ -1,5 +1,6 @@
 package fr.esiea.glpoo.model.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import fr.esiea.glpoo.model.service.FaceService;
  *
  */
 
-public class Piece {
+public class Piece{
 	
 	private static final Logger LOGGER = Logger.getLogger(Piece.class);
 
