@@ -23,7 +23,7 @@ public class Launcher {
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				JFrame view = new PuzzleJFrame();
+				JFrame view = new PuzzleJFrame(4,true);
 				view.setVisible(true);
 			}
 		});

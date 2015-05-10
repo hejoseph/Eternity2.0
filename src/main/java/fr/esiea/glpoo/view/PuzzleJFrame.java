@@ -55,6 +55,8 @@ public class PuzzleJFrame extends JFrame {
 	ImageIcon img;
 	private static final Logger LOGGER = Logger.getLogger(PuzzleJFrame.class);
 
+	private JFrame mainContainer;
+	
 	private JDialog finishedGameJDialog;
 	private JDialog savingGameJDialog;
 	
@@ -83,23 +85,29 @@ public class PuzzleJFrame extends JFrame {
 
 	/* playground */
 	private JTable table_game;
-
-	public PuzzleJFrame() {
+	
+	private int size;
+	private boolean newGame;
+	
+	public PuzzleJFrame(int size, boolean newGame) {
 		super();
-
+		this.mainContainer = this;
+		this.size = size;
+		this.newGame = newGame;
+		
 		LOGGER.debug("constructor ...");
 		setTitle("Eternity 2");
 		setPreferredSize(new Dimension(1300, 600));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		JPanel container = new JPanel();
-		model = new Puzzle(4, true);
+		model = new Puzzle(size, newGame);
 		table = new JTable(model);
 		table.setTableHeader(null);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setRowHeight(100);
 		TableColumn column = null;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < size; i++) {
 			column = table.getColumnModel().getColumn(i);
 			column.setPreferredWidth(100);
 		}
@@ -110,7 +118,7 @@ public class PuzzleJFrame extends JFrame {
 		// getClass().getClassLoader().getResource("piece.png");
 		// System.out.println(imgURL);
 		// img = new ImageIcon(imgURL);
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < size; i++) {
 			table.getColumnModel().getColumn(i)
 					.setCellRenderer(new ImageRenderer());
 		}
@@ -188,20 +196,20 @@ public class PuzzleJFrame extends JFrame {
 		taskPerformer = new TimerGame(lblTime); 
 		timer = new Timer(delay, taskPerformer);
 		timer.start();
-		model_game = new Puzzle(4, false);
+		model_game = new Puzzle(size, false);
 		table_game = new JTable(model_game);
 		table_game.setTableHeader(null);
 		table_game.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table_game.setRowHeight(100);
 		column = null;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < size; i++) {
 			column = table_game.getColumnModel().getColumn(i);
 			column.setPreferredWidth(100);
 		}
 		JScrollPane scrollPane2 = new JScrollPane(table_game);
 		scrollPane2.setBounds(800, 50, 403, 403);
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < size; i++) {
 			table_game.getColumnModel().getColumn(i)
 					.setCellRenderer(new ImageRenderer());
 		}
@@ -265,6 +273,16 @@ public class PuzzleJFrame extends JFrame {
 	
 		pack();
 	}
+	
+	public PuzzleJFrame(int size, boolean newGame, Puzzle loadModel){
+		this(size,newGame);
+		for(int i = 0 ; i < size; i++){
+			for(int j = 0; j<size ; j++){
+				Piece p = (Piece)loadModel.getValueAt(i, j);
+				model_game.setValueAt(p, i, j);
+			}
+		}
+	}
 
 	private void addMenu() {
 		final JMenuBar menuBar = new JMenuBar();
@@ -282,6 +300,9 @@ public class PuzzleJFrame extends JFrame {
 		// menuFichier.addSeparator();
 		final JMenuItem newMenu = new JMenuItem(new NewGame("New Game"));
 		menuFichier.add(newMenu);
+		menuFichier.addSeparator();
+		final JMenuItem loadMenu = new JMenuItem(new LoadAction("Load Game"));
+		menuFichier.add(loadMenu);
 		menuFichier.addSeparator();
 		final JMenuItem saveMenu = new JMenuItem(new SaveAction("Save Game"));
 		menuFichier.add(saveMenu);
@@ -399,7 +420,7 @@ public class PuzzleJFrame extends JFrame {
 			dispose();
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					JFrame view = new PuzzleJFrame();
+					JFrame view = new PuzzleJFrame(size,true);
 					view.setVisible(true);
 				}
 			});
@@ -428,10 +449,9 @@ public class PuzzleJFrame extends JFrame {
 			savingGameJDialog = new JDialog();
 			savingGameJDialog.setTitle("Saving message");
 			JLabel msg = new JLabel();
-			Boolean isSaved = model.save();
+			Boolean isSaved = model_game.save();
 			if(isSaved){
 				msg.setText("Votre partie est sauvegardee");
-				
 			} else {
 				msg.setText("Vous devez remplir toutes les cases du jeu avant de sauvegarder");
 			}
@@ -442,6 +462,27 @@ public class PuzzleJFrame extends JFrame {
 			savingGameJDialog.setLocationRelativeTo(null);
 			savingGameJDialog.setVisible(true);
 		}
+	}
+	
+	private class LoadAction extends AbstractAction {
+		public LoadAction(String text) {
+			super(text);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			LOGGER.info("Chargement des pieces");
+			
+//			final LoadGameActionHandler handler = new LoadGameActionHandler(model);
+			LoadGameJDialog popup = new LoadGameJDialog(model_game,mainContainer);
+			popup.setPopup(popup);
+			popup.setPreferredSize(new Dimension(500,500));
+			popup.setVisible(true);
+			
+		}
+	}
+	
+	public void setModel_game(Puzzle p){
+		this.model_game = p;
 	}
 	
 }

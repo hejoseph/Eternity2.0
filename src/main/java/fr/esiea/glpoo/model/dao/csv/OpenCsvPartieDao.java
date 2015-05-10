@@ -66,12 +66,16 @@ public class OpenCsvPartieDao extends AbstractCsvDao implements CsvPartieDao{
 					result.setFilename_pieces(s[1]);
 				} else if ( i == 1){
 					LOGGER.debug("second line");
-					result.setFilename_faces(lignes.get(i)[1]);
+					LOGGER.debug(s[1]);
+					result.setFilename_faces(s[1]);
 				} else {
+					LOGGER.debug("after second line");
+					LOGGER.debug(s[1]);
 					PieceSaved p = transformLigneToPiece(s);
 					pieces.add(p);
 				}
 			}
+			LOGGER.debug("done loading pieces");
 			result.setPieces(pieces);
 		} catch (Exception e) {
 			LOGGER.error("Une erreur s'est produite...", e);

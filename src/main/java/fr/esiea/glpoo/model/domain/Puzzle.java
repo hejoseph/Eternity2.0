@@ -463,5 +463,9 @@ public class Puzzle extends AbstractTableModel {
 		}
 		return false;
 	}
+	
+	public void setPieceGame(Piece[][] p){
+		this.piecegame = p;
+	}
 
 }
