@@ -456,8 +456,12 @@ public class Puzzle extends AbstractTableModel {
 		this.finishedRound = finishedRound;
 	}
 	
-	public void save(){
-		pieceService.save(piecegame);
+	public boolean save(){
+		if(this.isLoaded()){
+			pieceService.save(piecegame);
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -32,7 +32,10 @@ public class Piece{
 
 	private Orientation orientation;
 	
-	
+	public Piece(int id , Orientation o){
+		this.piece_id = id ;
+		this.orientation = o;
+	}
 
 	public Piece(int piece_id, int north_face_id, int east_face_id,
 			int south_face_id, int west_face_id) {
@@ -177,6 +180,16 @@ public class Piece{
 	
 	public String getFacesPattern(){
 		return ""+north_face_id+east_face_id+south_face_id+west_face_id;
+	}
+	
+	public String getFacesPattern2(){
+		String pattern = "";
+		
+		for(Face f : faces){
+			pattern += f.getFace_id();
+		}
+		
+		return pattern;
 	}
 	
 	public int getFaceIdAt(int i){

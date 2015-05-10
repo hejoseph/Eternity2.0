@@ -45,4 +45,35 @@ public enum Orientation {
 		this.nbRotation = nbRotation;
 	}
 	
+	/**
+	 * Recherche une orientation a partir de son code.
+	 * 
+	 * @param code
+	 * @return L'orientation.
+	 * @throws IllegalArgumentException
+	 *             si le code est "vide" ou ne permet pas de trouver l'orientation
+	 *             correspondante.
+	 * 
+	 */
+	public static Orientation valueOfByCode(final String code) {
+
+		// On verifie que le code n'est ni null ni vide.
+		if (code == null || code.isEmpty()) {
+			throw new IllegalArgumentException("Le code ne peut pas etre vide.");
+		}
+
+		// Note : La methode "values()" renvoie la liste de toutes les
+		// "instances" ce cette enum (ie. BASSET_ALPES, CANICHE, HARRIER, etc.)
+
+		for (Orientation o : values()) {
+			if (o.code.equalsIgnoreCase(code)) {
+				return o;
+			}
+		}
+
+		// Si on n'a pas trouve alors on lance une exception.
+		throw new IllegalArgumentException("La race de chien demandee n'existe pas.");
+	}
+
+	
 }

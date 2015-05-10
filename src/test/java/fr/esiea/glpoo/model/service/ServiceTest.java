@@ -11,7 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fr.esiea.glpoo.model.domain.Face;
+import fr.esiea.glpoo.model.domain.Partie;
 import fr.esiea.glpoo.model.domain.Piece;
+import fr.esiea.glpoo.model.domain.PieceSaved;
 
 /**
  * 
@@ -29,16 +31,18 @@ public class ServiceTest {
 	
 	private FaceService faceService;
 	private PieceService pieceService;
+	private PartieService partieService;
 	
 	@Before
 	public void doBefore() {
 		LOGGER.debug("doBefore Debut");
 		faceService = FaceService.getInstance();
 		pieceService = PieceService.getInstance();
+		partieService = PartieService.getInstance();
 		LOGGER.debug("doBefore Fin");
 	}
 	
-	@Test
+	//@Test
 	public void testListFace(){
 		LOGGER.debug("Testing ...");
 		final List<Face> faces = faceService.findAllFaces(RESOURCES_PATH+FACES_FILE_NAME);
@@ -49,7 +53,7 @@ public class ServiceTest {
 		Assert.assertNotSame(0,faces.size());
 	}
 	
-	@Test
+	//@Test
 	public void testListPiece(){
 		LOGGER.debug("Testing ...");
 		final List<Piece> pieces = pieceService.findAllPieces(RESOURCES_PATH+PIECES_FILE_NAME);
@@ -60,7 +64,7 @@ public class ServiceTest {
 		Assert.assertNotSame(0,pieces.size());
 	}
 	
-	@Test
+	//@Test
 	public void testImgNameFirstFaceOfFirstPiece(){
 		LOGGER.debug("test first face of a piece");
 		final List<Face> faces = faceService.findAllFaces(RESOURCES_PATH+FACES_FILE_NAME);
@@ -91,4 +95,57 @@ public class ServiceTest {
 		assertEquals(nameWaited,image_name);
 	}
 	
+	
+	@Test
+	public void testPartieFirstPieceId(){
+		final List<Partie> parties = partieService.findAllParties(RESOURCES_PATH+"parties.csv");
+		Partie partie = partieService.loadPartieFromFile(RESOURCES_PATH+parties.get(0).getFilename());
+		int result = partie.getPieces().get(0).getPiece_id();
+		Assert.assertEquals(2,result);
+	}
+	
+	/*premiere piece du JTable, doit avoir la forme (1..1) = (NESW)*/
+	@Test
+	public void testPartieFirstPieceGoodRotation(){
+		final List<Face> faces = faceService.findAllFaces(RESOURCES_PATH+FACES_FILE_NAME);
+		final List<Piece> pieces = pieceService.findAllPieces(RESOURCES_PATH+PIECES_FILE_NAME);
+		final List<Partie> parties = partieService.findAllParties(RESOURCES_PATH+"parties.csv");
+		Partie partie = partieService.loadPartieFromFile(RESOURCES_PATH+parties.get(0).getFilename());
+		List<PieceSaved> ps = new ArrayList<PieceSaved>();
+		for(PieceSaved pieceSaved : partie.getPieces()){
+			
+			Piece tmpPiece = pieceService.getPieceById(pieceSaved.getPiece_id());
+			List<Face> tmpFaces = new ArrayList<Face>();
+			
+			int north_id = tmpPiece.getNorth_face_id();
+			int east_id = tmpPiece.getEast_face_id();
+			int south_id = tmpPiece.getSouth_face_id();
+			int west_id = tmpPiece.getWest_face_id();
+			
+			Face face = faceService.getFaceById(north_id);
+			tmpFaces.add(face);
+			face = faceService.getFaceById(east_id);
+			tmpFaces.add(face);
+			face = faceService.getFaceById(south_id);
+			tmpFaces.add(face);
+			face = faceService.getFaceById(west_id);
+			tmpFaces.add(face);
+			
+			pieceSaved.setFaces(tmpFaces);
+			
+			pieceSaved.setNorth_face_id(north_id);
+			pieceSaved.setEast_face_id(east_id);
+			pieceSaved.setSouth_face_id(south_id);
+			pieceSaved.setWest_face_id(west_id);
+			LOGGER.debug(pieceSaved.getOrientation().getNbRotation());
+			pieceSaved.rotate(pieceSaved.getOrientation().getNbRotation());
+			
+			ps.add(pieceSaved);
+		}
+		partie.setPieces(ps);
+		
+		String result = partie.getPieces().get(0).getFacesPattern2();
+		
+		Assert.assertEquals("1231",result);
+	}
 }

@@ -56,6 +56,7 @@ public class PuzzleJFrame extends JFrame {
 	private static final Logger LOGGER = Logger.getLogger(PuzzleJFrame.class);
 
 	private JDialog finishedGameJDialog;
+	private JDialog savingGameJDialog;
 	
 	/*for the time*/
 	private TimerGame taskPerformer;
@@ -244,6 +245,9 @@ public class PuzzleJFrame extends JFrame {
 		table_game.setDragEnabled(true);
 		table_game.setTransferHandler(new PieceTransferHandler());
 		
+		JLabel jltext = new JLabel("Jouer vos pieces dans ce plateau :)");
+		jltext.setBounds(800, 10, jltext.getPreferredSize().width, jltext.getPreferredSize().height);
+		container.add(jltext);
 		container.add(boutons);
 		container.add(scrollPane);
 		container.add(scrollPane2);
@@ -307,8 +311,8 @@ public class PuzzleJFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			LOGGER.debug("Click sur le bouton pivoter");
 			newModelSelected.rotateImage(newSelectedRow, newSelectedColumn);
-			model.validate();
-			if (model.getFinishedRound()) {
+			model_game.validate();
+			if (model_game.getFinishedRound()) {
 				buttonRotate.setEnabled(false);
 				buttonMove.setEnabled(false);
 			}
@@ -421,7 +425,22 @@ public class PuzzleJFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			LOGGER.info("Sauverr");
 
-			model.save();
+			savingGameJDialog = new JDialog();
+			savingGameJDialog.setTitle("Saving message");
+			JLabel msg = new JLabel();
+			Boolean isSaved = model.save();
+			if(isSaved){
+				msg.setText("Votre partie est sauvegardee");
+				
+			} else {
+				msg.setText("Vous devez remplir toutes les cases du jeu avant de sauvegarder");
+			}
+			savingGameJDialog.setLayout(new BorderLayout());
+			savingGameJDialog.add(msg,BorderLayout.CENTER);
+			savingGameJDialog.setPreferredSize(new Dimension(400,75));
+			savingGameJDialog.pack();
+			savingGameJDialog.setLocationRelativeTo(null);
+			savingGameJDialog.setVisible(true);
 		}
 	}
 	

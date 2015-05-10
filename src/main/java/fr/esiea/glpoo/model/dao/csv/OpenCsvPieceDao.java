@@ -71,7 +71,7 @@ public class OpenCsvPieceDao extends AbstractCsvPieceDao{
 			CSVWriter writer = new CSVWriter(new FileWriter(file), ' ', '\0');
 			writer.writeNext(new String[]{"#", "Pieces:" , "nom_fichier"});
 			writer.writeNext(new String[]{"#", "Faces:" , "nom_fichier"});
-			writer.writeNext(new String[]{"P", "id_piece:" , "position_X" , "position_Y", "orientation(Nord/Est/Sud/Ouest)"});
+			writer.writeNext(new String[]{"#", "P", "id_piece:" , "position_X" , "position_Y", "orientation(Nord/Est/Sud/Ouest)"});
 			writer.writeNext(new String[]{"Pieces:", "pieces-01.csv" , "nom_fichier"});
 			writer.writeNext(new String[]{"Faces:", "faces-01.csv" , "nom_fichier"});
 			for(int i = 0 ; i < puzzle.length ; i++){

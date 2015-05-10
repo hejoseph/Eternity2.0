@@ -92,4 +92,10 @@ public class PieceService {
 		csvPieceDao.save(puzzle, file);
 	}
 	
+	public Piece getPieceById(int id){
+		LOGGER.debug("get Piece");
+		return csvPieceDao.getPieceById(id);
+	}
+
+	
 }
