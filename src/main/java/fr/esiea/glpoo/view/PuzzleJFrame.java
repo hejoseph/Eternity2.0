@@ -95,9 +95,28 @@ public class PuzzleJFrame extends JFrame {
 		this.size = size;
 		this.newGame = newGame;
 		
+		
+		final int POSITION_X_FIRST_JTABLE = 50;
+		final int POSITION_Y_FIRST_JTABLE = POSITION_X_FIRST_JTABLE;
+		final int HEIGHT_FIRST_JTABLE = size*101;
+		final int WIDTH_FIRST_JTABLE = size*101;
+		final int POSITION_X_BUTTONS = POSITION_X_FIRST_JTABLE + HEIGHT_FIRST_JTABLE + 10;
+		final int POSITION_Y_BUTTONS = POSITION_Y_FIRST_JTABLE;
+		final int WIDTH_BUTTONS = 85;
+		final int LBL_X_POSITION = POSITION_X_BUTTONS + WIDTH_BUTTONS + 50;
+		final int LBL_Y_POSITION = 25;
+		final int POSITION_X_SECOND_JTABLE = LBL_X_POSITION;
+		final int POSITION_Y_SECOND_JTABLE = POSITION_Y_FIRST_JTABLE;
+		
+		final int HEIGHT_SECOND_JTABLE = HEIGHT_FIRST_JTABLE;
+		final int WIDTH_SECOND_JTABLE = WIDTH_FIRST_JTABLE;
+		
+		final int WIDTH_WINDOW = WIDTH_FIRST_JTABLE + WIDTH_SECOND_JTABLE + WIDTH_BUTTONS + 175;
+		final int HEIGHT_WINDOW = HEIGHT_FIRST_JTABLE +135;
+		
 		LOGGER.debug("constructor ...");
 		setTitle("Eternity 2");
-		setPreferredSize(new Dimension(1300, 600));
+		setPreferredSize(new Dimension(WIDTH_WINDOW, HEIGHT_WINDOW));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		JPanel container = new JPanel();
@@ -112,7 +131,8 @@ public class PuzzleJFrame extends JFrame {
 			column.setPreferredWidth(100);
 		}
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(50, 50, 403, 403);
+		
+		scrollPane.setBounds(POSITION_X_FIRST_JTABLE, POSITION_Y_FIRST_JTABLE, WIDTH_FIRST_JTABLE, HEIGHT_FIRST_JTABLE);
 		LOGGER.debug("before image renderer");
 		// java.net.URL imgURL =
 		// getClass().getClassLoader().getResource("piece.png");
@@ -184,11 +204,11 @@ public class PuzzleJFrame extends JFrame {
 		JButton buttonValidate = new JButton(new ValidatePuzzle(taskPerformer));
 		buttonValidate.setEnabled(true);
 		boutons.add(buttonValidate);
-		boutons.setBounds(500, 200, boutons.getPreferredSize().width,
+		boutons.setBounds(POSITION_X_BUTTONS, POSITION_Y_BUTTONS, WIDTH_BUTTONS,
 				boutons.getPreferredSize().height);
 
 		JLabel lblTime = new JLabel("START   !");
-		lblTime.setBounds(480, 150, lblTime.getPreferredSize().width,
+		lblTime.setBounds(size*120, size*38, lblTime.getPreferredSize().width,
 				lblTime.getPreferredSize().height);
 		container.add(lblTime);
 
@@ -207,7 +227,7 @@ public class PuzzleJFrame extends JFrame {
 			column.setPreferredWidth(100);
 		}
 		JScrollPane scrollPane2 = new JScrollPane(table_game);
-		scrollPane2.setBounds(800, 50, 403, 403);
+		scrollPane2.setBounds(POSITION_X_SECOND_JTABLE, POSITION_Y_SECOND_JTABLE, WIDTH_SECOND_JTABLE, HEIGHT_SECOND_JTABLE);
 
 		for (int i = 0; i < size; i++) {
 			table_game.getColumnModel().getColumn(i)
@@ -254,7 +274,7 @@ public class PuzzleJFrame extends JFrame {
 		table_game.setTransferHandler(new PieceTransferHandler());
 		
 		JLabel jltext = new JLabel("Jouer vos pieces dans ce plateau :)");
-		jltext.setBounds(800, 10, jltext.getPreferredSize().width, jltext.getPreferredSize().height);
+		jltext.setBounds(LBL_X_POSITION, LBL_Y_POSITION, jltext.getPreferredSize().width, jltext.getPreferredSize().height);
 		container.add(jltext);
 		container.add(boutons);
 		container.add(scrollPane);
