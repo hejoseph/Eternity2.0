@@ -38,6 +38,8 @@ public class LoadGameJDialog extends JDialog{
 	private PieceService pieceService = PieceService.getInstance();
 	private FaceService faceService = FaceService.getInstance();
 	private JFrame mainContainer;
+	
+	/*pour pouvoir fermer apres le click "charger"*/
 	private JDialog lgjd;
 	
 	public LoadGameJDialog(Puzzle model_game, JFrame mainContainer){

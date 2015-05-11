@@ -465,22 +465,27 @@ public class PuzzleJFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			LOGGER.info("Sauverr");
-
-			savingGameJDialog = new JDialog();
-			savingGameJDialog.setTitle("Saving message");
-			JLabel msg = new JLabel();
-			Boolean isSaved = model_game.save();
-			if(isSaved){
-				msg.setText("Votre partie est sauvegardee");
-			} else {
-				msg.setText("Vous devez remplir toutes les cases du jeu avant de sauvegarder");
-			}
-			savingGameJDialog.setLayout(new BorderLayout());
-			savingGameJDialog.add(msg,BorderLayout.CENTER);
-			savingGameJDialog.setPreferredSize(new Dimension(400,75));
-			savingGameJDialog.pack();
-			savingGameJDialog.setLocationRelativeTo(null);
-			savingGameJDialog.setVisible(true);
+			
+			SaveGameJDialog popup = new SaveGameJDialog(model_game);
+			popup.setPopup(popup);
+			popup.setPreferredSize(new Dimension(500,500));
+			popup.setVisible(true);
+			
+//			savingGameJDialog = new JDialog();
+//			savingGameJDialog.setTitle("Saving message");
+//			JLabel msg = new JLabel();
+//			Boolean isSaved = model_game.save();
+//			if(isSaved){
+//				msg.setText("Votre partie est sauvegardee");
+//			} else {
+//				msg.setText("Vous devez remplir toutes les cases du jeu avant de sauvegarder");
+//			}
+//			savingGameJDialog.setLayout(new BorderLayout());
+//			savingGameJDialog.add(msg,BorderLayout.CENTER);
+//			savingGameJDialog.setPreferredSize(new Dimension(400,75));
+//			savingGameJDialog.pack();
+//			savingGameJDialog.setLocationRelativeTo(null);
+//			savingGameJDialog.setVisible(true);
 		}
 	}
 	

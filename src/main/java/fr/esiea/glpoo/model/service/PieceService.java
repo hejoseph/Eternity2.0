@@ -84,8 +84,8 @@ public class PieceService {
 		}
 	}
 	
-	public void save(final Piece[][] puzzle){
-		final String target = "src/main/resources/partie-01.csv";
+	public void save(final Piece[][] puzzle, String filename){
+		final String target = "src/main/resources/"+filename+".csv";
 
 		final File file = new File(target);
 
