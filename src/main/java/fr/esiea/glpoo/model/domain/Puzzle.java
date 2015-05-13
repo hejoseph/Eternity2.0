@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.Piece;
 import fr.esiea.glpoo.model.service.FaceService;
+import fr.esiea.glpoo.model.service.PartieService;
 import fr.esiea.glpoo.model.service.PieceService;
 
 /**
@@ -29,9 +30,11 @@ public class Puzzle extends AbstractTableModel {
 	public final static String RESOURCES_PATH = "src/test/resources/";
 	public final static String PIECES_FILE_NAME = "pieces-01.csv";
 	public final static String FACES_FILE_NAME = "faces-01.csv";
+	public final static String PARTIES_FILE_NAME = "parties.csv";
 
 	private FaceService faceService = FaceService.getInstance();
 	private PieceService pieceService = PieceService.getInstance();
+	private PartieService partieService = PartieService.getInstance();
 
 	// private LabelDemo lb;
 	private Piece[][] piecegame;
@@ -68,6 +71,7 @@ public class Puzzle extends AbstractTableModel {
 				+ PIECES_FILE_NAME);
 		List<Face> faces = faceService.findAllFaces(RESOURCES_PATH
 				+ FACES_FILE_NAME);
+		partieService.findAllParties(RESOURCES_PATH+PARTIES_FILE_NAME);
 		
 		for (Piece p : pieces) {
 			List<Face> lf = new ArrayList<Face>();
@@ -459,6 +463,7 @@ public class Puzzle extends AbstractTableModel {
 	public boolean save(String filename){
 		if(this.isLoaded()){
 			pieceService.save(piecegame,filename);
+			partieService.save(filename);
 			return true;
 		}
 		return false;

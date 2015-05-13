@@ -16,6 +16,7 @@ import fr.esiea.glpoo.model.dao.csv.OpenCsvFaceDao;
 import fr.esiea.glpoo.model.dao.csv.OpenCsvPartieDao;
 import fr.esiea.glpoo.model.domain.Face;
 import fr.esiea.glpoo.model.domain.Partie;
+import fr.esiea.glpoo.model.domain.Piece;
 
 public class PartieService {
 private static final Logger LOGGER = Logger.getLogger(PartieService.class);
@@ -39,22 +40,6 @@ private static final Logger LOGGER = Logger.getLogger(PartieService.class);
 	private PartieService() {
 		LOGGER.debug("Constructeur");
 		csvPartieDao = new OpenCsvPartieDao();
-		
-		final CacheLoader<String, List<Partie>> cacheLoader = new CacheLoader<String, List<Partie>>() {
-			public List<Partie> load(final String key) {
-				// Ici la key ne sert a rien
-				LOGGER.debug("Mise en cache des donnees.");
-				final File file = new File(fileName);
-				csvPartieDao.init(file);
-				return csvPartieDao.findAllParties();
-			}
-		};
-
-		partiesCache = CacheBuilder.newBuilder() //
-				.expireAfterWrite(10, TimeUnit.MINUTES) // Duree : 10 min.
-				.build(cacheLoader);
-
-		
 	}
 
 
@@ -82,7 +67,9 @@ private static final Logger LOGGER = Logger.getLogger(PartieService.class);
 		this.fileName = fileName;
 
 		try {
-			return partiesCache.get("parties");
+			final File file = new File(fileName);
+			csvPartieDao.init(file);
+			return csvPartieDao.findAllParties();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -97,4 +84,12 @@ private static final Logger LOGGER = Logger.getLogger(PartieService.class);
 //		LOGGER.debug("get Face");
 //		return csvPartieDao.getPartieById(id);
 //	}
+	
+	public void save(String filename){
+		final String target = "src/main/resources/parties.csv";
+
+		final File file = new File(target);
+
+		csvPartieDao.save(filename, file);
+	}
 }

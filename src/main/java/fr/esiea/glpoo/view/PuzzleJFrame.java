@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -56,14 +57,14 @@ public class PuzzleJFrame extends JFrame {
 	private static final Logger LOGGER = Logger.getLogger(PuzzleJFrame.class);
 
 	private JFrame mainContainer;
-	
+
 	private JDialog finishedGameJDialog;
 	private JDialog savingGameJDialog;
-	
-	/*for the time*/
+
+	/* for the time */
 	private TimerGame taskPerformer;
 	private Timer timer;
-	
+
 	private JButton buttonRotate;
 	private JButton buttonMove;
 
@@ -75,45 +76,52 @@ public class PuzzleJFrame extends JFrame {
 
 	/* temporary model */
 	private Puzzle newModelSelected, oldModelSelected = null;
-
+	private Puzzle sourceModelSelected, destModelSelected = null;
+	
+	
 	private int newSelectedRow, newSelectedColumn, oldSelectedRow,
 			oldSelectedColumn, rowBoardGame, columnBoardGame, rowBoard,
 			colBoard = -2;
+	
+	
+	private int sourceSelectedRow, sourceSelectedColumn, destSelectedRow,
+	destSelectedColumn = -2;
 
 	/* for loading data before playing */
 	private JTable table;
 
 	/* playground */
 	private JTable table_game;
-	
+
 	private int size;
 	private boolean newGame;
-	
+
 	public PuzzleJFrame(int size, boolean newGame) {
 		super();
 		this.mainContainer = this;
 		this.size = size;
 		this.newGame = newGame;
-		
-		
+
 		final int POSITION_X_FIRST_JTABLE = 50;
 		final int POSITION_Y_FIRST_JTABLE = POSITION_X_FIRST_JTABLE;
-		final int HEIGHT_FIRST_JTABLE = size*101;
-		final int WIDTH_FIRST_JTABLE = size*101;
-		final int POSITION_X_BUTTONS = POSITION_X_FIRST_JTABLE + HEIGHT_FIRST_JTABLE + 10;
+		final int HEIGHT_FIRST_JTABLE = size * 101;
+		final int WIDTH_FIRST_JTABLE = size * 101;
+		final int POSITION_X_BUTTONS = POSITION_X_FIRST_JTABLE
+				+ HEIGHT_FIRST_JTABLE + 10;
 		final int POSITION_Y_BUTTONS = POSITION_Y_FIRST_JTABLE;
 		final int WIDTH_BUTTONS = 85;
 		final int LBL_X_POSITION = POSITION_X_BUTTONS + WIDTH_BUTTONS + 50;
 		final int LBL_Y_POSITION = 25;
 		final int POSITION_X_SECOND_JTABLE = LBL_X_POSITION;
 		final int POSITION_Y_SECOND_JTABLE = POSITION_Y_FIRST_JTABLE;
-		
+
 		final int HEIGHT_SECOND_JTABLE = HEIGHT_FIRST_JTABLE;
 		final int WIDTH_SECOND_JTABLE = WIDTH_FIRST_JTABLE;
-		
-		final int WIDTH_WINDOW = WIDTH_FIRST_JTABLE + WIDTH_SECOND_JTABLE + WIDTH_BUTTONS + 175;
-		final int HEIGHT_WINDOW = HEIGHT_FIRST_JTABLE +135;
-		
+
+		final int WIDTH_WINDOW = WIDTH_FIRST_JTABLE + WIDTH_SECOND_JTABLE
+				+ WIDTH_BUTTONS + 175;
+		final int HEIGHT_WINDOW = HEIGHT_FIRST_JTABLE + 135;
+
 		LOGGER.debug("constructor ...");
 		setTitle("Eternity 2");
 		setPreferredSize(new Dimension(WIDTH_WINDOW, HEIGHT_WINDOW));
@@ -131,8 +139,9 @@ public class PuzzleJFrame extends JFrame {
 			column.setPreferredWidth(100);
 		}
 		JScrollPane scrollPane = new JScrollPane(table);
-		
-		scrollPane.setBounds(POSITION_X_FIRST_JTABLE, POSITION_Y_FIRST_JTABLE, WIDTH_FIRST_JTABLE, HEIGHT_FIRST_JTABLE);
+
+		scrollPane.setBounds(POSITION_X_FIRST_JTABLE, POSITION_Y_FIRST_JTABLE,
+				WIDTH_FIRST_JTABLE, HEIGHT_FIRST_JTABLE);
 		LOGGER.debug("before image renderer");
 		// java.net.URL imgURL =
 		// getClass().getClassLoader().getResource("piece.png");
@@ -144,51 +153,93 @@ public class PuzzleJFrame extends JFrame {
 		}
 
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
+//			@Override
+//			public void mouseClicked(java.awt.event.MouseEvent evt) {
+//				LOGGER.debug("in click");
+//
+//				model.setClicked(true);
+//				rowBoard = table.rowAtPoint(evt.getPoint());
+//				colBoard = table.columnAtPoint(evt.getPoint());
+//				// Piece p = ((Piece)model.getValueAt(rowBoard, colBoard));
+//				// String list1="[ ";
+//				// for(Face f : p.getFaces()){
+//				// list1+=f.getFace_id() + " ";
+//				// }
+//				// list1+="]";
+//				// LOGGER.debug(p.getOrientation().getCode()+"   "+p.get_faces_id()+"   Affichage"+list1+
+//				// "  Nord:"+p.getNorth_face_id()+
+//				// "   Est:"+p.getEast_face_id()+"   Sud:"+p.getSouth_face_id()+"   West:"+p.getWest_face_id());
+//
+//				oldSelectedRow = newSelectedRow;
+//				oldSelectedColumn = newSelectedColumn;
+//				newSelectedRow = rowBoard;
+//				newSelectedColumn = colBoard;
+//				oldModelSelected = newModelSelected;
+//				newModelSelected = model;
+//				LOGGER.debug(newModelSelected.equals(model));
+//				if (newModelSelected.getValueAt(newSelectedRow,
+//						newSelectedColumn) != null) {
+//					buttonRotate.setEnabled(true);
+//					LOGGER.debug("or not !");
+//				} else {
+//					buttonRotate.setEnabled(false);
+//				}
+//				if (oldModelSelected != null && newModelSelected != null) {
+//					if (oldModelSelected.getValueAt(oldSelectedRow,
+//							oldSelectedColumn) != null
+//							|| newModelSelected.getValueAt(newSelectedRow,
+//									newSelectedColumn) != null) {
+//						buttonMove.setEnabled(true);
+//					}
+//				}
+//
+//			}
 			@Override
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				LOGGER.debug("in click");
-
-				model.setClicked(true);
+			public void mousePressed(MouseEvent evt) {
+				System.out.println("pressed");
 				rowBoard = table.rowAtPoint(evt.getPoint());
 				colBoard = table.columnAtPoint(evt.getPoint());
-				// Piece p = ((Piece)model.getValueAt(rowBoard, colBoard));
-				// String list1="[ ";
-				// for(Face f : p.getFaces()){
-				// list1+=f.getFace_id() + " ";
-				// }
-				// list1+="]";
-				// LOGGER.debug(p.getOrientation().getCode()+"   "+p.get_faces_id()+"   Affichage"+list1+
-				// "  Nord:"+p.getNorth_face_id()+
-				// "   Est:"+p.getEast_face_id()+"   Sud:"+p.getSouth_face_id()+"   West:"+p.getWest_face_id());
-
-				oldSelectedRow = newSelectedRow;
-				oldSelectedColumn = newSelectedColumn;
-				newSelectedRow = rowBoard;
-				newSelectedColumn = colBoard;
-				oldModelSelected = newModelSelected;
-				newModelSelected = model;
-				LOGGER.debug(newModelSelected.equals(model));
-				if (newModelSelected.getValueAt(newSelectedRow,
-						newSelectedColumn) != null) {
-					buttonRotate.setEnabled(true);
-					LOGGER.debug("or not !");
-				} else {
-					buttonRotate.setEnabled(false);
+				
+				sourceSelectedRow = rowBoard;
+				sourceSelectedColumn = colBoard;
+				sourceModelSelected = (Puzzle) ((JTable)evt.getSource()).getModel();
+				
+				
+				try{
+					if (newModelSelected.getValueAt(newSelectedRow,
+							newSelectedColumn) != null) {
+						buttonRotate.setEnabled(true);
+						LOGGER.debug("or not !");
+					} else {
+						buttonRotate.setEnabled(false);
+					}
+				} catch(Exception e){
+					
 				}
-				if (oldModelSelected != null && newModelSelected != null) {
-					if (oldModelSelected.getValueAt(oldSelectedRow,
-							oldSelectedColumn) != null
-							|| newModelSelected.getValueAt(newSelectedRow,
-									newSelectedColumn) != null) {
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				System.out.println("released");
+				rowBoard = table.rowAtPoint(e.getPoint());
+				colBoard = table.columnAtPoint(e.getPoint());
+				
+				destSelectedRow = rowBoard;
+				destSelectedColumn = colBoard;
+				
+				destModelSelected = (Puzzle) ((JTable)e.getSource()).getModel();
+				
+				if (sourceModelSelected != null && destModelSelected != null) {
+					if (sourceModelSelected.getValueAt(sourceSelectedRow,
+							sourceSelectedColumn) != null
+							|| destModelSelected.getValueAt(destSelectedRow,
+									destSelectedColumn) != null) {
 						buttonMove.setEnabled(true);
 					}
 				}
-
 			}
 		});
 		table.setDragEnabled(true);
 		table.setTransferHandler(new PieceTransferHandler());
-		
 
 		final JPanel boutons = new JPanel();
 		boutons.setLayout(new BoxLayout(boutons, BoxLayout.Y_AXIS));
@@ -204,16 +255,17 @@ public class PuzzleJFrame extends JFrame {
 		JButton buttonValidate = new JButton(new ValidatePuzzle(taskPerformer));
 		buttonValidate.setEnabled(true);
 		boutons.add(buttonValidate);
-		boutons.setBounds(POSITION_X_BUTTONS, POSITION_Y_BUTTONS, WIDTH_BUTTONS,
-				boutons.getPreferredSize().height);
+		boutons.setBounds(POSITION_X_BUTTONS, POSITION_Y_BUTTONS,
+				WIDTH_BUTTONS, boutons.getPreferredSize().height);
 
 		JLabel lblTime = new JLabel("START   !");
-		lblTime.setBounds(size*120, size*38, lblTime.getPreferredSize().width,
+		lblTime.setBounds(size * 120, size * 38,
+				lblTime.getPreferredSize().width,
 				lblTime.getPreferredSize().height);
 		container.add(lblTime);
 
 		int delay = 1000; // milliseconds
-		taskPerformer = new TimerGame(lblTime); 
+		taskPerformer = new TimerGame(lblTime);
 		timer = new Timer(delay, taskPerformer);
 		timer.start();
 		model_game = new Puzzle(size, false);
@@ -227,7 +279,9 @@ public class PuzzleJFrame extends JFrame {
 			column.setPreferredWidth(100);
 		}
 		JScrollPane scrollPane2 = new JScrollPane(table_game);
-		scrollPane2.setBounds(POSITION_X_SECOND_JTABLE, POSITION_Y_SECOND_JTABLE, WIDTH_SECOND_JTABLE, HEIGHT_SECOND_JTABLE);
+		scrollPane2.setBounds(POSITION_X_SECOND_JTABLE,
+				POSITION_Y_SECOND_JTABLE, WIDTH_SECOND_JTABLE,
+				HEIGHT_SECOND_JTABLE);
 
 		for (int i = 0; i < size; i++) {
 			table_game.getColumnModel().getColumn(i)
@@ -235,46 +289,96 @@ public class PuzzleJFrame extends JFrame {
 		}
 
 		table_game.addMouseListener(new java.awt.event.MouseAdapter() {
+//			@Override
+//			public void mouseClicked(java.awt.event.MouseEvent evt) {
+//				model_game.setClicked(true);
+//				rowBoardGame = table_game.rowAtPoint(evt.getPoint());
+//				columnBoardGame = table_game.columnAtPoint(evt.getPoint());
+//				oldSelectedRow = newSelectedRow;
+//				oldSelectedColumn = newSelectedColumn;
+//				newSelectedRow = rowBoardGame;
+//				newSelectedColumn = columnBoardGame;
+//				oldModelSelected = newModelSelected;
+//				newModelSelected = model_game;
+//				System.out.println(((Piece) newModelSelected.getValueAt(
+//						rowBoardGame, columnBoardGame)));
+//				if (newModelSelected.getValueAt(newSelectedRow,
+//						newSelectedColumn) != null) {
+//					System.out.println("haha");
+//					buttonRotate.setEnabled(true);
+//				} else {
+//					buttonRotate.setEnabled(false);
+//				}
+//				if (oldModelSelected != null && newModelSelected != null) {
+//					if (oldModelSelected.getValueAt(oldSelectedRow,
+//							oldSelectedColumn) != null
+//							|| newModelSelected.getValueAt(newSelectedRow,
+//									newSelectedColumn) != null) {
+//						buttonMove.setEnabled(true);
+//					}
+//				}
+//				System.out.println("old : " + oldSelectedRow + " "
+//						+ oldSelectedColumn);
+//				System.out.println("new : " + newSelectedRow + " "
+//						+ newSelectedColumn);
+//			}
+//			@Override
+//			public void mousePressed(MouseEvent evt) {
+//				System.out.println("pressed");
+//			}
+//			@Override
+//			public void mouseReleased(MouseEvent e) {
+//				System.out.println("released");
+//			}
+			
 			@Override
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				model_game.setClicked(true);
-				rowBoardGame = table_game.rowAtPoint(evt.getPoint());
-				columnBoardGame = table_game.columnAtPoint(evt.getPoint());
-				oldSelectedRow = newSelectedRow;
-				oldSelectedColumn = newSelectedColumn;
-				newSelectedRow = rowBoardGame;
-				newSelectedColumn = columnBoardGame;
-				oldModelSelected = newModelSelected;
-				newModelSelected = model_game;
-				System.out.println(((Piece) newModelSelected.getValueAt(
-						rowBoardGame, columnBoardGame)));
+			public void mousePressed(MouseEvent evt) {
+				System.out.println("pressed");
+				rowBoard = table.rowAtPoint(evt.getPoint());
+				colBoard = table.columnAtPoint(evt.getPoint());
+				
+				sourceSelectedRow = rowBoard;
+				sourceSelectedColumn = colBoard;
+				sourceModelSelected = (Puzzle) ((JTable)evt.getSource()).getModel();
+				
+				
 				if (newModelSelected.getValueAt(newSelectedRow,
 						newSelectedColumn) != null) {
-					System.out.println("haha");
 					buttonRotate.setEnabled(true);
+					LOGGER.debug("or not !");
 				} else {
 					buttonRotate.setEnabled(false);
 				}
-				if (oldModelSelected != null && newModelSelected != null) {
-					if (oldModelSelected.getValueAt(oldSelectedRow,
-							oldSelectedColumn) != null
-							|| newModelSelected.getValueAt(newSelectedRow,
-									newSelectedColumn) != null) {
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				System.out.println("released");
+				rowBoard = table.rowAtPoint(e.getPoint());
+				colBoard = table.columnAtPoint(e.getPoint());
+				
+				destSelectedRow = rowBoard;
+				destSelectedColumn = colBoard;
+				
+				destModelSelected = (Puzzle) ((JTable)e.getSource()).getModel();
+				
+				if (sourceModelSelected != null && destModelSelected != null) {
+					if (sourceModelSelected.getValueAt(sourceSelectedRow,
+							sourceSelectedColumn) != null
+							|| destModelSelected.getValueAt(destSelectedRow,
+									destSelectedColumn) != null) {
 						buttonMove.setEnabled(true);
 					}
 				}
-				System.out.println("old : " + oldSelectedRow + " "
-						+ oldSelectedColumn);
-				System.out.println("new : " + newSelectedRow + " "
-						+ newSelectedColumn);
 			}
 		});
 
 		table_game.setDragEnabled(true);
 		table_game.setTransferHandler(new PieceTransferHandler());
-		
+
 		JLabel jltext = new JLabel("Jouer vos pieces dans ce plateau :)");
-		jltext.setBounds(LBL_X_POSITION, LBL_Y_POSITION, jltext.getPreferredSize().width, jltext.getPreferredSize().height);
+		jltext.setBounds(LBL_X_POSITION, LBL_Y_POSITION,
+				jltext.getPreferredSize().width,
+				jltext.getPreferredSize().height);
 		container.add(jltext);
 		container.add(boutons);
 		container.add(scrollPane);
@@ -290,15 +394,15 @@ public class PuzzleJFrame extends JFrame {
 		// System.out.println(imgURL);
 
 		addMenu();
-	
+
 		pack();
 	}
-	
-	public PuzzleJFrame(int size, boolean newGame, Puzzle loadModel){
-		this(size,newGame);
-		for(int i = 0 ; i < size; i++){
-			for(int j = 0; j<size ; j++){
-				Piece p = (Piece)loadModel.getValueAt(i, j);
+
+	public PuzzleJFrame(int size, boolean newGame, Puzzle loadModel) {
+		this(size, newGame);
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				Piece p = (Piece) loadModel.getValueAt(i, j);
 				model_game.setValueAt(p, i, j);
 			}
 		}
@@ -398,33 +502,34 @@ public class PuzzleJFrame extends JFrame {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		
-//		ActionListener taskPerformer;
-		
+
+		// ActionListener taskPerformer;
+
 		private ValidatePuzzle(ActionListener taskPerformer) {
 			super("Valider");
-//			this.taskPerformer = 
+			// this.taskPerformer =
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			model.validate();
-			
+
 			finishedGameJDialog = new JDialog();
 			finishedGameJDialog.setTitle("Ratio H/F");
-			
+
 			if (model.getFinishedRound()) {
-				JLabel msg = new JLabel("Votre score : "+TimerGame.convertSeconds(taskPerformer.getS()));
+				JLabel msg = new JLabel("Votre score : "
+						+ TimerGame.convertSeconds(taskPerformer.getS()));
 				finishedGameJDialog.setLayout(new BorderLayout());
-				finishedGameJDialog.add(msg,BorderLayout.CENTER);
-				finishedGameJDialog.setPreferredSize(new Dimension(200,200));
+				finishedGameJDialog.add(msg, BorderLayout.CENTER);
+				finishedGameJDialog.setPreferredSize(new Dimension(200, 200));
 				finishedGameJDialog.pack();
 				finishedGameJDialog.setLocationRelativeTo(null);
 				finishedGameJDialog.setVisible(true);
 				timer.stop();
 				// buttonRotate.setEnabled(false);
 				// buttonMove.setEnabled(false);
-//				System.exit(0);
+				// System.exit(0);
 			}
 		}
 	}
@@ -440,7 +545,7 @@ public class PuzzleJFrame extends JFrame {
 			dispose();
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					JFrame view = new PuzzleJFrame(size,true);
+					JFrame view = new PuzzleJFrame(size, true);
 					view.setVisible(true);
 				}
 			});
@@ -465,30 +570,30 @@ public class PuzzleJFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			LOGGER.info("Sauverr");
-			
+
 			SaveGameJDialog popup = new SaveGameJDialog(model_game);
 			popup.setPopup(popup);
-			popup.setPreferredSize(new Dimension(500,500));
+			popup.setPreferredSize(new Dimension(500, 500));
 			popup.setVisible(true);
-			
-//			savingGameJDialog = new JDialog();
-//			savingGameJDialog.setTitle("Saving message");
-//			JLabel msg = new JLabel();
-//			Boolean isSaved = model_game.save();
-//			if(isSaved){
-//				msg.setText("Votre partie est sauvegardee");
-//			} else {
-//				msg.setText("Vous devez remplir toutes les cases du jeu avant de sauvegarder");
-//			}
-//			savingGameJDialog.setLayout(new BorderLayout());
-//			savingGameJDialog.add(msg,BorderLayout.CENTER);
-//			savingGameJDialog.setPreferredSize(new Dimension(400,75));
-//			savingGameJDialog.pack();
-//			savingGameJDialog.setLocationRelativeTo(null);
-//			savingGameJDialog.setVisible(true);
+
+			// savingGameJDialog = new JDialog();
+			// savingGameJDialog.setTitle("Saving message");
+			// JLabel msg = new JLabel();
+			// Boolean isSaved = model_game.save();
+			// if(isSaved){
+			// msg.setText("Votre partie est sauvegardee");
+			// } else {
+			// msg.setText("Vous devez remplir toutes les cases du jeu avant de sauvegarder");
+			// }
+			// savingGameJDialog.setLayout(new BorderLayout());
+			// savingGameJDialog.add(msg,BorderLayout.CENTER);
+			// savingGameJDialog.setPreferredSize(new Dimension(400,75));
+			// savingGameJDialog.pack();
+			// savingGameJDialog.setLocationRelativeTo(null);
+			// savingGameJDialog.setVisible(true);
 		}
 	}
-	
+
 	private class LoadAction extends AbstractAction {
 		public LoadAction(String text) {
 			super(text);
@@ -496,18 +601,20 @@ public class PuzzleJFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			LOGGER.info("Chargement des pieces");
-			
-//			final LoadGameActionHandler handler = new LoadGameActionHandler(model);
-			LoadGameJDialog popup = new LoadGameJDialog(model_game,mainContainer);
+
+			// final LoadGameActionHandler handler = new
+			// LoadGameActionHandler(model);
+			LoadGameJDialog popup = new LoadGameJDialog(model_game,
+					mainContainer);
 			popup.setPopup(popup);
-			popup.setPreferredSize(new Dimension(500,500));
+			popup.setPreferredSize(new Dimension(500, 500));
 			popup.setVisible(true);
-			
+
 		}
 	}
-	
-	public void setModel_game(Puzzle p){
+
+	public void setModel_game(Puzzle p) {
 		this.model_game = p;
 	}
-	
+
 }

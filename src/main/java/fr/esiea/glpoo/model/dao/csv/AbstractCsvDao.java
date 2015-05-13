@@ -24,6 +24,8 @@ public abstract class AbstractCsvDao {
 	
 	protected File file;
 	
+	
+	
 	protected List<String[]> getLignesFromFile() {
 		LOGGER.debug("getLignesFromFile");
 

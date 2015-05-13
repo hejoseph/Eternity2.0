@@ -57,6 +57,7 @@ public class LoadGameJDialog extends JDialog{
 		String[] model = new String[parties.size()];
 		for(int i = 0 ; i < parties.size(); i ++){
 			model[i] = parties.get(i).getFilename();
+			System.out.println("oh " +model[i]);
 		}
 		jl = new JList(model);
 		jl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

@@ -1,12 +1,15 @@
 package fr.esiea.glpoo.model.dao.csv;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import au.com.bytecode.opencsv.CSVWriter;
 import fr.esiea.glpoo.model.dao.PartieDao;
 import fr.esiea.glpoo.model.domain.Orientation;
 import fr.esiea.glpoo.model.domain.Partie;
@@ -136,4 +139,37 @@ public class OpenCsvPartieDao extends AbstractCsvDao implements CsvPartieDao{
 		return file;
 	}
 
+	@Override
+	public void save(String filename, File file) {
+		LOGGER.debug("Sauvegarde du nom de la partie");
+		try {
+			CSVWriter writer = new CSVWriter(new FileWriter(file), ' ', '\0');
+//			writer.writeNext(new String[]{"#", "Pieces:" , "nom_fichier"});
+//			writer.writeNext(new String[]{"#", "Faces:" , "nom_fichier"});
+//			writer.writeNext(new String[]{"#", "P", "id_piece:" , "position_X" , "position_Y", "orientation(Nord/Est/Sud/Ouest)"});
+//			writer.writeNext(new String[]{"Pieces:", "pieces-01.csv" , "nom_fichier"});
+//			writer.writeNext(new String[]{"Faces:", "faces-01.csv" , "nom_fichier"});
+//			for(int i = 0 ; i < parties.size() ; i++){
+//					String[] result = {parties.};
+//					writer.writeNext(result);
+//			}
+			
+			for(Partie p : parties){
+				String[] result = {""+p.getId_partie(),""+p.getFilename()}; 
+				writer.writeNext(result);
+			}
+			
+			int save_id = parties.get(parties.size()-1).getId_partie();
+			save_id++;
+			String[] result = {""+save_id, filename+".csv"};
+			writer.writeNext(result);
+			writer.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+	
 }

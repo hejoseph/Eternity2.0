@@ -23,5 +23,7 @@ public interface CsvPartieDao extends PartieDao{
 	File getFile();
 	
 	Partie loadPiecesFromPartie(File file);
+
+	void save(String filename, File file);
 	
 }

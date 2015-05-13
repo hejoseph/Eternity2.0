@@ -17,7 +17,10 @@ public class PieceTransferable implements Transferable , ClipboardOwner{
 	private static final DataFlavor[] flavors = {
         PieceFlavor.pieceFlavor
     };
-	public PieceTransferable(Piece piece){
+	public PieceTransferable(Piece piece) throws Exception{
+		if(piece == null){
+			throw new Exception();
+		}
 		this.piece = piece;
 	}
 	

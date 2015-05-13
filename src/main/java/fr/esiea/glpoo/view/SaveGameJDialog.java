@@ -91,6 +91,7 @@ public class SaveGameJDialog extends JDialog{
 				savingGameJDialog.pack();
 				savingGameJDialog.setLocationRelativeTo(null);
 				savingGameJDialog.setVisible(true);
+				sgjd.dispose();
 			}
 		}
 		
