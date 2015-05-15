@@ -6,6 +6,7 @@ import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 
+import fr.esiea.glpoo.view.MainMenu;
 import fr.esiea.glpoo.view.PuzzleJFrame;
 
 /**
@@ -23,8 +24,14 @@ public class Launcher {
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				JFrame view = new PuzzleJFrame(4,true);
-				view.setVisible(true);
+//				JFrame view = new PuzzleJFrame(4,true);
+//				view.setVisible(true);
+				
+				Double a = null;
+				LOGGER.debug(a);
+				
+				MainMenu mm = new MainMenu();
+				mm.setVisible(true);
 			}
 		});
 
