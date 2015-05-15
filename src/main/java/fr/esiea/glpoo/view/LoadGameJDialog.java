@@ -33,7 +33,7 @@ public class LoadGameJDialog extends JDialog{
 	private static final Logger LOGGER = Logger.getLogger(LoadGameJDialog.class);
 	
 	private JList jl;
-	private Puzzle model_game;
+//	private Puzzle model_game;
 	private PartieService partieService = PartieService.getInstance();
 	private PieceService pieceService = PieceService.getInstance();
 	private FaceService faceService = FaceService.getInstance();
@@ -42,11 +42,8 @@ public class LoadGameJDialog extends JDialog{
 	/*pour pouvoir fermer apres le click "charger"*/
 	private JDialog lgjd;
 	
-	public LoadGameJDialog(Puzzle model_game, JFrame mainContainer){
+	public LoadGameJDialog(){
 		super();
-		this.mainContainer = mainContainer;
-		
-		this.model_game = model_game;
 		JPanel container = new JPanel();
 		container.setLayout(null);
 		setTitle("Charger une partie");
@@ -76,6 +73,11 @@ public class LoadGameJDialog extends JDialog{
 //		container.setLayout(new GridLayout(3,1));
 		setContentPane(container);
 		pack();
+	}
+	
+	public LoadGameJDialog(/*Puzzle model_game,*/ JFrame mainContainer){
+		this();
+		this.mainContainer = mainContainer;
 	}
 	
 	public void setPopup(LoadGameJDialog p){
@@ -137,8 +139,11 @@ public class LoadGameJDialog extends JDialog{
 					int y = pieceSaved.getY();
 					p.setValueAt(pieceSaved, x, y);
 				}
-				mainContainer.setVisible(false);
-				mainContainer.dispose();
+				if(mainContainer!=null){
+					mainContainer.setVisible(false);
+					mainContainer.dispose();
+				}
+				
 				JFrame newGame = new PuzzleJFrame(sizegame, false, p);
 				newGame.setVisible(true);
 				lgjd.dispose();

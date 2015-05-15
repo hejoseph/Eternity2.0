@@ -14,6 +14,7 @@ import java.io.IOException;
 
 
 
+
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -29,6 +30,7 @@ public class MainMenu extends JFrame {
 
 	private JPanel mainMenu;
 	private JPanel subMenuNewGame;
+	private JPanel subMenuHighScores;
 
 	private static final Logger LOGGER = Logger.getLogger(MainMenu.class);
 
@@ -40,6 +42,8 @@ public class MainMenu extends JFrame {
 
 		subMenuNewGame = initSubMenuNewGame();
 
+		
+		
 		setContentPane(mainMenu);
 		// setContentPane(subMenuNewGame);
 		// getContentPane().add(mainMenu);
@@ -90,6 +94,8 @@ public class MainMenu extends JFrame {
 		load_game.setBackground(Color.BLACK);
 		container.add(load_game);
 		
+		load_game.addMouseListener(new LoadGameAction());
+		
 		try {
 			bf = ImageIO.read(new File("src/main/resources/high_scores.png"));
 		} catch (IOException e) {
@@ -101,6 +107,8 @@ public class MainMenu extends JFrame {
 		high_scores.setBackground(Color.BLACK);
 		container.add(high_scores);
 				
+		high_scores.addMouseListener(new HighScoresAction());
+		
 		try {
 			bf = ImageIO.read(new File("src/main/resources/eternity2.jpg"));
 		} catch (IOException e) {
@@ -261,4 +269,85 @@ public class MainMenu extends JFrame {
 		}
 		
 	}
+	
+	class LoadGameAction implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			LOGGER.info("Chargement des pieces");
+
+			// final LoadGameActionHandler handler = new
+			// LoadGameActionHandler(model);
+			LoadGameJDialog popup = new LoadGameJDialog();
+			popup.setPopup(popup);
+			popup.setPreferredSize(new Dimension(500, 500));
+			popup.setVisible(true);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	class HighScoresAction implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			LOGGER.info("Chargement des pieces");
+
+			// final LoadGameActionHandler handler = new
+			// LoadGameActionHandler(model);
+			LoadGameJDialog popup = new LoadGameJDialog();
+			popup.setPopup(popup);
+			popup.setPreferredSize(new Dimension(500, 500));
+			popup.setVisible(true);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
 }

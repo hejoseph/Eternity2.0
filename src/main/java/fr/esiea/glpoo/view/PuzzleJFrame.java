@@ -492,18 +492,16 @@ public class PuzzleJFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			model.validate();
-
-			finishedGameJDialog = new JDialog();
-			finishedGameJDialog.setTitle("Ratio H/F");
-
 			if (model.getFinishedRound()) {
-				JLabel msg = new JLabel("Votre score : "
-						+ TimerGame.convertSeconds(taskPerformer.getS()));
-				finishedGameJDialog.setLayout(new BorderLayout());
-				finishedGameJDialog.add(msg, BorderLayout.CENTER);
-				finishedGameJDialog.setPreferredSize(new Dimension(200, 200));
-				finishedGameJDialog.pack();
-				finishedGameJDialog.setLocationRelativeTo(null);
+				finishedGameJDialog = new FinishedGameJDialog(taskPerformer, size);
+//				finishedGameJDialog.setTitle("Fin de la partie");
+//				JLabel msg = new JLabel("Votre score : "
+//						+ TimerGame.convertSeconds(taskPerformer.getS()));
+//				finishedGameJDialog.setLayout(new BorderLayout());
+//				finishedGameJDialog.add(msg, BorderLayout.CENTER);
+//				finishedGameJDialog.setPreferredSize(new Dimension(200, 200));
+//				finishedGameJDialog.pack();
+//				finishedGameJDialog.setLocationRelativeTo(null);
 				finishedGameJDialog.setVisible(true);
 				timer.stop();
 				// buttonRotate.setEnabled(false);
@@ -583,7 +581,7 @@ public class PuzzleJFrame extends JFrame {
 
 			// final LoadGameActionHandler handler = new
 			// LoadGameActionHandler(model);
-			LoadGameJDialog popup = new LoadGameJDialog(model_game,
+			LoadGameJDialog popup = new LoadGameJDialog(/*model_game,*/
 					mainContainer);
 			popup.setPopup(popup);
 			popup.setPreferredSize(new Dimension(500, 500));

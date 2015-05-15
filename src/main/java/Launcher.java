@@ -24,14 +24,11 @@ public class Launcher {
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-//				JFrame view = new PuzzleJFrame(4,true);
-//				view.setVisible(true);
+				JFrame view = new PuzzleJFrame(5,true);
+				view.setVisible(true);
 				
-				Double a = null;
-				LOGGER.debug(a);
-				
-				MainMenu mm = new MainMenu();
-				mm.setVisible(true);
+//				MainMenu mm = new MainMenu();
+//				mm.setVisible(true);
 			}
 		});
 
