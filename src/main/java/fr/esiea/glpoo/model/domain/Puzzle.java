@@ -1,6 +1,7 @@
 package fr.esiea.glpoo.model.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -89,6 +90,21 @@ public class Puzzle extends AbstractTableModel {
 			piecegame = generateRandomSolvablePuzzle(piecegame, pieces);
 		}
 		System.out.println("taille fin : " + pieces.size());
+		
+		List<Piece> tmpList = new ArrayList<Piece>();
+		for(Piece[] pieces1 : piecegame){
+			for(Piece piece1 : pieces1){
+				tmpList.add(piece1);
+			}
+		}
+		Collections.shuffle(tmpList);
+		
+		for(int i = 0 ; i < size ; i++){
+			for(int j = 0 ; j < size ; j++){
+				piecegame[i][j] = tmpList.remove(0);
+			}
+		}
+		
 	}
 
 	private void initPuzzle() {

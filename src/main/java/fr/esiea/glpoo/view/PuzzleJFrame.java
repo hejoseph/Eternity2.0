@@ -127,8 +127,8 @@ public class PuzzleJFrame extends JFrame {
 		LOGGER.debug("constructor ...");
 		setTitle("Eternity 2");
 		setPreferredSize(new Dimension(WIDTH_WINDOW, HEIGHT_WINDOW));
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+//		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setResizable(false);
 		JPanel container = new JPanel();
 		model = new Puzzle(size, newGame);
 		table = new JTable(model);
@@ -211,7 +211,7 @@ public class PuzzleJFrame extends JFrame {
 				WIDTH_BUTTONS, boutons.getPreferredSize().height);
 
 		JLabel lblTime = new JLabel("START   !");
-		lblTime.setBounds(size * 120, size * 38,
+		lblTime.setBounds(POSITION_X_BUTTONS, size * 38,
 				lblTime.getPreferredSize().width,
 				lblTime.getPreferredSize().height);
 		container.add(lblTime);
@@ -491,8 +491,8 @@ public class PuzzleJFrame extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			model.validate();
-			if (model.getFinishedRound()) {
+			model_game.validate();
+			if (model_game.getFinishedRound()) {
 				finishedGameJDialog = new FinishedGameJDialog(taskPerformer, size);
 //				finishedGameJDialog.setTitle("Fin de la partie");
 //				JLabel msg = new JLabel("Votre score : "

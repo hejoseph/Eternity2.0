@@ -15,14 +15,29 @@ import java.io.IOException;
 
 
 
+
+
+
+
+
+
+import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;
+
+import fr.esiea.glpoo.model.domain.Score;
+import fr.esiea.glpoo.model.service.ScoreService;
 
 //import fr.esiea.glpoo.view.SubMenuNewGame.LevelGame;
 
@@ -36,18 +51,51 @@ public class MainMenu extends JFrame {
 
 	public MainMenu() {
 		super("Eternity 2");
+		setResizable(false);
+//		setBackground(Color.black);
 		// setPreferredSize(new Dimension(500, 300));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		mainMenu = initMainMenu();
 
 		subMenuNewGame = initSubMenuNewGame();
 
-		
+		subMenuHighScores = initSubMenuHighScores();
 		
 		setContentPane(mainMenu);
 		// setContentPane(subMenuNewGame);
 		// getContentPane().add(mainMenu);
 		pack();
+	}
+
+	private JPanel initSubMenuHighScores() {
+		JPanel p = new JPanel();
+		p.setPreferredSize(new Dimension(500, 300));
+		// setLocationRelativeTo(null);
+
+		JPanel container = new JPanel();
+		container.setLayout(null);
+		ScoreModele sm = new ScoreModele();
+		JTable table = new JTable(sm);
+		JScrollPane js = new JScrollPane(table);
+		container.add(js);
+		js.setBounds(0, 0, js.getPreferredSize().width, js.getPreferredSize().height);
+//		for (int i = 0; i < 3; i++) {
+//			JButton levelButton = new JButton(new LevelGame(i));
+//			levelButton.setBounds(350, 10+30*i, levelButton.getPreferredSize().width, levelButton.getPreferredSize().height);
+//			container.add(levelButton);
+//		}
+//		container.setBounds(30, 10, container.getPreferredSize().width,
+//				container.getPreferredSize().height);
+		JButton backButton = new JButton(new BackAction());
+//		backButton.setBounds(90, 150, backButton.getPreferredSize().width,
+//				backButton.getPreferredSize().height);
+		p = new JPanel();
+		p.setLayout(new BorderLayout());
+//		p.setPreferredSize(new Dimension(500, 500));
+		p.add(container, BorderLayout.CENTER);
+		p.add(backButton, BorderLayout.SOUTH);
+//		p.setLayout(null);
+		return p;
 	}
 
 	private JPanel initMainMenu() {
@@ -314,14 +362,8 @@ public class MainMenu extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			LOGGER.info("Chargement des pieces");
-
-			// final LoadGameActionHandler handler = new
-			// LoadGameActionHandler(model);
-			LoadGameJDialog popup = new LoadGameJDialog();
-			popup.setPopup(popup);
-			popup.setPreferredSize(new Dimension(500, 500));
-			popup.setVisible(true);
+			LOGGER.info("highscore clicked");
+			changePanel(subMenuHighScores);
 		}
 
 		@Override
@@ -346,6 +388,59 @@ public class MainMenu extends JFrame {
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
+		}
+		
+	}
+	
+	class ScoreModele extends AbstractTableModel{
+
+		private ScoreService scoreService = ScoreService.getInstance();
+		private String[] entetes = {"Pseudo","Size Game", "Temps"};
+		private List<Score> scores;
+		
+		public ScoreModele(){
+			scores = scoreService.findAllScores("src/main/resources/scores.csv");
+		}
+		
+		public List<Score> getScores() {
+			return scores;
+		}
+		
+		@Override
+		public int getRowCount() {
+			return scores.size();
+		}
+
+		@Override
+		public int getColumnCount() {
+			return entetes.length;
+		}
+		
+		@Override
+		public String getColumnName(int columnIndex) {
+			return entetes[columnIndex];
+		}
+
+		@Override
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			switch (columnIndex) {
+
+			case 0:
+				// Nom
+				return scores.get(rowIndex).getNickname();
+
+			case 1:
+				// Prenom
+				return scores.get(rowIndex).getLevel()+"x"+scores.get(rowIndex).getLevel();
+				
+			case 2:
+				// Annee
+				return TimerGame.convertSeconds(scores.get(rowIndex).getTime());
+
+	
+			default:
+				throw new IllegalArgumentException();
+			}
 		}
 		
 	}
