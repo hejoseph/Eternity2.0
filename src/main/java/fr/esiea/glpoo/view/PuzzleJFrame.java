@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -67,6 +68,7 @@ public class PuzzleJFrame extends JFrame {
 
 	private JButton buttonRotate;
 	private JButton buttonMove;
+	private JButton buttonValidate;
 
 	/* Data Loaded */
 	private Puzzle model;
@@ -102,8 +104,8 @@ public class PuzzleJFrame extends JFrame {
 		this.size = size;
 		this.newGame = newGame;
 
-		final int POSITION_X_FIRST_JTABLE = 50;
-		final int POSITION_Y_FIRST_JTABLE = POSITION_X_FIRST_JTABLE;
+		final int POSITION_X_FIRST_JTABLE = 10;
+		final int POSITION_Y_FIRST_JTABLE = 50;
 		final int HEIGHT_FIRST_JTABLE = size * 101;
 		final int WIDTH_FIRST_JTABLE = size * 101;
 		final int POSITION_X_BUTTONS = POSITION_X_FIRST_JTABLE
@@ -119,7 +121,7 @@ public class PuzzleJFrame extends JFrame {
 		final int WIDTH_SECOND_JTABLE = WIDTH_FIRST_JTABLE;
 
 		final int WIDTH_WINDOW = WIDTH_FIRST_JTABLE + WIDTH_SECOND_JTABLE
-				+ WIDTH_BUTTONS + 175;
+				+ WIDTH_BUTTONS + 115;
 		final int HEIGHT_WINDOW = HEIGHT_FIRST_JTABLE + 135;
 
 		LOGGER.debug("constructor ...");
@@ -152,82 +154,29 @@ public class PuzzleJFrame extends JFrame {
 					.setCellRenderer(new ImageRenderer());
 		}
 
-		table.addMouseListener(new java.awt.event.MouseAdapter() {
-//			@Override
-//			public void mouseClicked(java.awt.event.MouseEvent evt) {
-//				LOGGER.debug("in click");
-//
-//				model.setClicked(true);
-//				rowBoard = table.rowAtPoint(evt.getPoint());
-//				colBoard = table.columnAtPoint(evt.getPoint());
-//				// Piece p = ((Piece)model.getValueAt(rowBoard, colBoard));
-//				// String list1="[ ";
-//				// for(Face f : p.getFaces()){
-//				// list1+=f.getFace_id() + " ";
-//				// }
-//				// list1+="]";
-//				// LOGGER.debug(p.getOrientation().getCode()+"   "+p.get_faces_id()+"   Affichage"+list1+
-//				// "  Nord:"+p.getNorth_face_id()+
-//				// "   Est:"+p.getEast_face_id()+"   Sud:"+p.getSouth_face_id()+"   West:"+p.getWest_face_id());
-//
-//				oldSelectedRow = newSelectedRow;
-//				oldSelectedColumn = newSelectedColumn;
-//				newSelectedRow = rowBoard;
-//				newSelectedColumn = colBoard;
-//				oldModelSelected = newModelSelected;
-//				newModelSelected = model;
-//				LOGGER.debug(newModelSelected.equals(model));
-//				if (newModelSelected.getValueAt(newSelectedRow,
-//						newSelectedColumn) != null) {
-//					buttonRotate.setEnabled(true);
-//					LOGGER.debug("or not !");
-//				} else {
-//					buttonRotate.setEnabled(false);
-//				}
-//				if (oldModelSelected != null && newModelSelected != null) {
-//					if (oldModelSelected.getValueAt(oldSelectedRow,
-//							oldSelectedColumn) != null
-//							|| newModelSelected.getValueAt(newSelectedRow,
-//									newSelectedColumn) != null) {
-//						buttonMove.setEnabled(true);
-//					}
-//				}
-//
-//			}
+		table.addMouseListener(new java.awt.event.MouseAdapter(){
 			@Override
-			public void mousePressed(MouseEvent evt) {
-				System.out.println("pressed");
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				LOGGER.debug("in click");
+
+				model.setClicked(true);
 				rowBoard = table.rowAtPoint(evt.getPoint());
 				colBoard = table.columnAtPoint(evt.getPoint());
-				
-				sourceSelectedRow = rowBoard;
-				sourceSelectedColumn = colBoard;
-				sourceModelSelected = (Puzzle) ((JTable)evt.getSource()).getModel();
-				
-				
-				try{
-					if (newModelSelected.getValueAt(newSelectedRow,
-							newSelectedColumn) != null) {
-						buttonRotate.setEnabled(true);
-						LOGGER.debug("or not !");
-					} else {
-						buttonRotate.setEnabled(false);
-					}
-				} catch(Exception e){
-					
-				}
-			}
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				System.out.println("released");
-				rowBoard = table.rowAtPoint(e.getPoint());
-				colBoard = table.columnAtPoint(e.getPoint());
-				
+				sourceSelectedRow = destSelectedRow;
+				sourceSelectedColumn = destSelectedColumn;
 				destSelectedRow = rowBoard;
 				destSelectedColumn = colBoard;
-				
-				destModelSelected = (Puzzle) ((JTable)e.getSource()).getModel();
-				
+				sourceModelSelected = destModelSelected;
+				destModelSelected = model;
+				LOGGER.debug(destModelSelected.equals(model));
+				if (destModelSelected.getValueAt(destSelectedRow,
+						destSelectedColumn) != null) {
+					buttonRotate.setEnabled(true);
+					table.addKeyListener(new RotateKeyListener(table));
+					LOGGER.debug("or not !");
+				} else {
+					buttonRotate.setEnabled(false);
+				}
 				if (sourceModelSelected != null && destModelSelected != null) {
 					if (sourceModelSelected.getValueAt(sourceSelectedRow,
 							sourceSelectedColumn) != null
@@ -236,8 +185,11 @@ public class PuzzleJFrame extends JFrame {
 						buttonMove.setEnabled(true);
 					}
 				}
+
 			}
 		});
+		
+		
 		table.setDragEnabled(true);
 		table.setTransferHandler(new PieceTransferHandler());
 
@@ -252,7 +204,7 @@ public class PuzzleJFrame extends JFrame {
 		buttonMove.setEnabled(false);
 		boutons.add(buttonMove);
 
-		JButton buttonValidate = new JButton(new ValidatePuzzle(taskPerformer));
+		buttonValidate = new JButton(new ValidatePuzzle(taskPerformer));
 		buttonValidate.setEnabled(true);
 		boutons.add(buttonValidate);
 		boutons.setBounds(POSITION_X_BUTTONS, POSITION_Y_BUTTONS,
@@ -288,9 +240,41 @@ public class PuzzleJFrame extends JFrame {
 					.setCellRenderer(new ImageRenderer());
 		}
 
+		
+		
 		table_game.addMouseListener(new java.awt.event.MouseAdapter() {
-//			@Override
-//			public void mouseClicked(java.awt.event.MouseEvent evt) {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				
+				model_game.setClicked(true);
+				rowBoard = table_game.rowAtPoint(evt.getPoint());
+				colBoard = table_game.columnAtPoint(evt.getPoint());
+				LOGGER.debug(rowBoard+" "+colBoard);
+				
+				sourceSelectedRow = destSelectedRow;
+				sourceSelectedColumn = destSelectedColumn;
+				destSelectedRow = rowBoard;
+				destSelectedColumn = colBoard;
+				sourceModelSelected = destModelSelected;
+				destModelSelected = model_game;
+				LOGGER.debug(destModelSelected.equals(model_game));
+				if (destModelSelected.getValueAt(destSelectedRow,
+						destSelectedColumn) != null) {
+					buttonRotate.setEnabled(true);
+					table_game.addKeyListener(new RotateKeyListener(table_game));
+					LOGGER.debug("or not !");
+				} else {
+					buttonRotate.setEnabled(false);
+				}
+				if (sourceModelSelected != null && destModelSelected != null) {
+					if (sourceModelSelected.getValueAt(sourceSelectedRow,
+							sourceSelectedColumn) != null
+							|| destModelSelected.getValueAt(destSelectedRow,
+									destSelectedColumn) != null) {
+						buttonMove.setEnabled(true);
+					}
+				}
+				
 //				model_game.setClicked(true);
 //				rowBoardGame = table_game.rowAtPoint(evt.getPoint());
 //				columnBoardGame = table_game.columnAtPoint(evt.getPoint());
@@ -321,7 +305,7 @@ public class PuzzleJFrame extends JFrame {
 //						+ oldSelectedColumn);
 //				System.out.println("new : " + newSelectedRow + " "
 //						+ newSelectedColumn);
-//			}
+			}
 //			@Override
 //			public void mousePressed(MouseEvent evt) {
 //				System.out.println("pressed");
@@ -331,45 +315,45 @@ public class PuzzleJFrame extends JFrame {
 //				System.out.println("released");
 //			}
 			
-			@Override
-			public void mousePressed(MouseEvent evt) {
-				System.out.println("pressed");
-				rowBoard = table.rowAtPoint(evt.getPoint());
-				colBoard = table.columnAtPoint(evt.getPoint());
-				
-				sourceSelectedRow = rowBoard;
-				sourceSelectedColumn = colBoard;
-				sourceModelSelected = (Puzzle) ((JTable)evt.getSource()).getModel();
-				
-				
-				if (newModelSelected.getValueAt(newSelectedRow,
-						newSelectedColumn) != null) {
-					buttonRotate.setEnabled(true);
-					LOGGER.debug("or not !");
-				} else {
-					buttonRotate.setEnabled(false);
-				}
-			}
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				System.out.println("released");
-				rowBoard = table.rowAtPoint(e.getPoint());
-				colBoard = table.columnAtPoint(e.getPoint());
-				
-				destSelectedRow = rowBoard;
-				destSelectedColumn = colBoard;
-				
-				destModelSelected = (Puzzle) ((JTable)e.getSource()).getModel();
-				
-				if (sourceModelSelected != null && destModelSelected != null) {
-					if (sourceModelSelected.getValueAt(sourceSelectedRow,
-							sourceSelectedColumn) != null
-							|| destModelSelected.getValueAt(destSelectedRow,
-									destSelectedColumn) != null) {
-						buttonMove.setEnabled(true);
-					}
-				}
-			}
+//			@Override
+//			public void mousePressed(MouseEvent evt) {
+//				System.out.println("pressed");
+//				rowBoard = table.rowAtPoint(evt.getPoint());
+//				colBoard = table.columnAtPoint(evt.getPoint());
+//				
+//				sourceSelectedRow = rowBoard;
+//				sourceSelectedColumn = colBoard;
+//				sourceModelSelected = (Puzzle) ((JTable)evt.getSource()).getModel();
+//				
+//				
+//				if (newModelSelected.getValueAt(newSelectedRow,
+//						newSelectedColumn) != null) {
+//					buttonRotate.setEnabled(true);
+//					LOGGER.debug("or not !");
+//				} else {
+//					buttonRotate.setEnabled(false);
+//				}
+//			}
+//			@Override
+//			public void mouseReleased(MouseEvent e) {
+//				System.out.println("released");
+//				rowBoard = table.rowAtPoint(e.getPoint());
+//				colBoard = table.columnAtPoint(e.getPoint());
+//				
+//				destSelectedRow = rowBoard;
+//				destSelectedColumn = colBoard;
+//				
+//				destModelSelected = (Puzzle) ((JTable)e.getSource()).getModel();
+//				
+//				if (sourceModelSelected != null && destModelSelected != null) {
+//					if (sourceModelSelected.getValueAt(sourceSelectedRow,
+//							sourceSelectedColumn) != null
+//							|| destModelSelected.getValueAt(destSelectedRow,
+//									destSelectedColumn) != null) {
+//						buttonMove.setEnabled(true);
+//					}
+//				}
+//			}
 		});
 
 		table_game.setDragEnabled(true);
@@ -455,7 +439,7 @@ public class PuzzleJFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			LOGGER.debug("Click sur le bouton pivoter");
-			newModelSelected.rotateImage(newSelectedRow, newSelectedColumn);
+			destModelSelected.rotateImage(destSelectedRow, destSelectedColumn);
 			model_game.validate();
 			if (model_game.getFinishedRound()) {
 				buttonRotate.setEnabled(false);
@@ -477,22 +461,17 @@ public class PuzzleJFrame extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Piece tmpPieceModel = (Piece) oldModelSelected.getValueAt(
-					oldSelectedRow, oldSelectedColumn);
-			Piece tmpPieceBoardGame = (Piece) newModelSelected.getValueAt(
-					newSelectedRow, newSelectedColumn);
-			oldModelSelected.setValueAt(tmpPieceBoardGame, oldSelectedRow,
-					oldSelectedColumn);
-			newModelSelected.setValueAt(tmpPieceModel, newSelectedRow,
-					newSelectedColumn);
+			Piece tmpPieceModel = (Piece) sourceModelSelected.getValueAt(
+					sourceSelectedRow, sourceSelectedColumn);
+			Piece tmpPieceBoardGame = (Piece) destModelSelected.getValueAt(
+					destSelectedRow, destSelectedColumn);
+			sourceModelSelected.setValueAt(tmpPieceBoardGame, sourceSelectedRow,
+					sourceSelectedColumn);
+			destModelSelected.setValueAt(tmpPieceModel, destSelectedRow,
+					destSelectedColumn);
 			buttonMove.setEnabled(false);
 
-			oldModelSelected = newModelSelected = null;
-			// model.validate();
-			// if(model.getFinishedRound()){
-			// buttonRotate.setEnabled(false);
-			// buttonMove.setEnabled(false);
-			// }
+			sourceModelSelected = destModelSelected = null;
 		}
 	}
 
