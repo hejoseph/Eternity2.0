@@ -25,11 +25,13 @@ public class FinishedGameJDialog extends JDialog {
 	
 	private JTextField namejtf;
 	
-	public FinishedGameJDialog(TimerGame tg, int lvl){
+	private PuzzleJFrame p;
+	
+	public FinishedGameJDialog(TimerGame tg, int lvl, PuzzleJFrame p){
 		super();
 		this.timerGame = tg;
 		this.level = ""+lvl;
-		
+		this.p=p;
 		initContent();
 	}
 
@@ -89,6 +91,7 @@ public class FinishedGameJDialog extends JDialog {
 				msg.setText("Votre score est sauvegardee ! Consulter votre nouveau score dans le menu High Scores");
 				savingGameJDialog.setLayout(new BorderLayout());
 				this.parentWindow.dispose();
+				p.dispose();
 			}
 			savingGameJDialog.setPreferredSize(new Dimension(msg.getPreferredSize().width+25,75));
 			savingGameJDialog.pack();

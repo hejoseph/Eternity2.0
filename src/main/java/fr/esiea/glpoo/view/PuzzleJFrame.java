@@ -204,7 +204,7 @@ public class PuzzleJFrame extends JFrame {
 		buttonMove.setEnabled(false);
 		boutons.add(buttonMove);
 
-		buttonValidate = new JButton(new ValidatePuzzle(taskPerformer));
+		buttonValidate = new JButton(new ValidatePuzzle(taskPerformer,this));
 		buttonValidate.setEnabled(true);
 		boutons.add(buttonValidate);
 		boutons.setBounds(POSITION_X_BUTTONS, POSITION_Y_BUTTONS,
@@ -482,10 +482,12 @@ public class PuzzleJFrame extends JFrame {
 		 */
 		private static final long serialVersionUID = 1L;
 
+		private PuzzleJFrame p;
 		// ActionListener taskPerformer;
 
-		private ValidatePuzzle(ActionListener taskPerformer) {
+		private ValidatePuzzle(ActionListener taskPerformer, PuzzleJFrame a) {
 			super("Valider");
+			this.p = a;
 			// this.taskPerformer =
 		}
 
@@ -493,7 +495,7 @@ public class PuzzleJFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			model_game.validate();
 			if (model_game.getFinishedRound()) {
-				finishedGameJDialog = new FinishedGameJDialog(taskPerformer, size);
+				finishedGameJDialog = new FinishedGameJDialog(taskPerformer, size, this.p);
 //				finishedGameJDialog.setTitle("Fin de la partie");
 //				JLabel msg = new JLabel("Votre score : "
 //						+ TimerGame.convertSeconds(taskPerformer.getS()));

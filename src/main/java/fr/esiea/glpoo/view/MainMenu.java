@@ -363,7 +363,7 @@ public class MainMenu extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			LOGGER.info("highscore clicked");
-			changePanel(subMenuHighScores);
+			changePanel(initSubMenuHighScores());
 		}
 
 		@Override
